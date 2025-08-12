@@ -1,0 +1,464 @@
+@echo off
+chcp 65001 > nul 2>&1
+setlocal enabledelayedexpansion
+title Global City Image Generator
+
+echo.
+echo ===============================================================
+echo  FLUX Krea + Low Poly Joy LoRA Global City Image Generator
+echo ===============================================================
+echo.
+echo  Timezone-based folder management
+echo  47 major cities landmark image generation  
+echo  6 weather conditions
+echo  VRAM 12GB+ recommended
+echo.
+
+:MAIN_MENU
+cls
+echo.
+echo ===============================================================
+echo Generation Options
+echo ===============================================================
+echo.
+echo [1] Asia-Pacific (12 cities, 72 images, 2-3 hours)
+echo [2] Europe (12 cities, 72 images, 2-3 hours)
+echo [3] North America (10 cities, 60 images, 2-3 hours)
+echo [4] Middle East and Africa (8 cities, 48 images, 1-2 hours)
+echo [5] South America (5 cities, 30 images, 1-2 hours)
+echo [6] All Regions (47 cities, 282 images, 9-14 hours)
+echo [7] Individual City Selection
+echo [8] Test Run (First 2 cities)
+echo [9] Weather Selection
+echo [10] Show Info
+echo [11] Clear Existing Images
+echo [0] Exit
+echo.
+echo ** Existing images will be automatically overwritten **
+echo.
+set /p "choice=Please select (0-11): "
+
+if "!choice!"=="1" goto :ASIA_PACIFIC
+if "!choice!"=="2" goto :EUROPE
+if "!choice!"=="3" goto :NORTH_AMERICA
+if "!choice!"=="4" goto :MIDDLE_EAST_AFRICA
+if "!choice!"=="5" goto :SOUTH_AMERICA
+if "!choice!"=="6" goto :ALL_REGIONS
+if "!choice!"=="7" goto :INDIVIDUAL_MENU
+if "!choice!"=="8" goto :TEST_RUN
+if "!choice!"=="9" goto :WEATHER_SELECT
+if "!choice!"=="10" goto :SHOW_INFO
+if "!choice!"=="11" goto :CLEAR_IMAGES
+if "!choice!"=="0" goto :EXIT
+
+echo Invalid selection. Please try again.
+pause
+goto :MAIN_MENU
+
+:CLEAR_IMAGES
+echo.
+echo ===============================================================
+echo Clear Existing Images
+echo ===============================================================
+echo.
+echo This will delete all images in ComfyUI/output/timezones/ folder.
+echo.
+set /p "confirm=Are you sure you want to delete all existing images? (y/n): "
+if /i "!confirm!"=="y" goto :DO_CLEAR
+goto :MAIN_MENU
+
+:DO_CLEAR
+echo.
+echo Deleting existing images...
+if exist "..\ComfyUI\output\timezones" (
+    rmdir /s /q "..\ComfyUI\output\timezones" > nul 2>&1
+    echo Successfully deleted all existing images.
+) else (
+    echo No images to delete.
+)
+echo.
+pause
+goto :MAIN_MENU
+
+:ASIA_PACIFIC
+echo.
+echo Starting Asia-Pacific region generation...
+echo ===============================================================
+echo Existing images will be automatically overwritten.
+echo.
+python regional_batch_generator.py --region asia_pacific --config global_cities_config.json
+goto :RESULT_MENU
+
+:EUROPE
+echo.
+echo Starting Europe region generation...
+echo ===============================================================
+echo Existing images will be automatically overwritten.
+echo.
+python regional_batch_generator.py --region europe --config global_cities_config.json
+goto :RESULT_MENU
+
+:NORTH_AMERICA
+echo.
+echo Starting North America region generation...
+echo ===============================================================
+echo Existing images will be automatically overwritten.
+echo.
+python regional_batch_generator.py --region north_america --config global_cities_config.json
+goto :RESULT_MENU
+
+:MIDDLE_EAST_AFRICA
+echo.
+echo Starting Middle East and Africa region generation...
+echo ===============================================================
+echo Existing images will be automatically overwritten.
+echo.
+python regional_batch_generator.py --region middle_east_africa --config global_cities_config.json
+goto :RESULT_MENU
+
+:SOUTH_AMERICA
+echo.
+echo Starting South America region generation...
+echo ===============================================================
+echo Existing images will be automatically overwritten.
+echo.
+python regional_batch_generator.py --region south_america --config global_cities_config.json
+goto :RESULT_MENU
+
+:ALL_REGIONS
+echo.
+echo Starting ALL regions generation...
+echo ===============================================================
+echo WARNING: This will take 9-14 hours!
+echo Existing images will be automatically overwritten.
+echo.
+set /p "confirm=Are you sure? (y/n): "
+if /i "!confirm!"=="y" goto :RUN_ALL
+goto :MAIN_MENU
+
+:RUN_ALL
+python regional_batch_generator.py --region asia_pacific --config global_cities_config.json
+python regional_batch_generator.py --region europe --config global_cities_config.json
+python regional_batch_generator.py --region north_america --config global_cities_config.json
+python regional_batch_generator.py --region middle_east_africa --config global_cities_config.json
+python regional_batch_generator.py --region south_america --config global_cities_config.json
+echo ALL REGIONS COMPLETED!
+goto :RESULT_MENU
+
+:INDIVIDUAL_MENU
+cls
+echo.
+echo Individual City Selection
+echo ===============================================================
+echo.
+echo [1] Asia-Pacific cities (12 cities)
+echo [2] Europe cities (12 cities)
+echo [3] North America cities (10 cities)
+echo [4] Middle East and Africa cities (8 cities)
+echo [5] South America cities (5 cities)
+echo [0] Back to main menu
+echo.
+echo ** Selected city images will be overwritten **
+echo.
+set /p "region=Select region (0-5): "
+
+if "!region!"=="1" goto :ASIA_PACIFIC_CITIES
+if "!region!"=="2" goto :EUROPE_CITIES
+if "!region!"=="3" goto :NORTH_AMERICA_CITIES
+if "!region!"=="4" goto :MIDDLE_EAST_AFRICA_CITIES
+if "!region!"=="5" goto :SOUTH_AMERICA_CITIES
+if "!region!"=="0" goto :MAIN_MENU
+
+echo Invalid selection.
+pause
+goto :INDIVIDUAL_MENU
+
+:ASIA_PACIFIC_CITIES
+cls
+echo.
+echo Asia-Pacific Cities:
+echo ===============================================================
+echo [1] Seoul [2] Tokyo [3] Beijing [4] Singapore [5] Bangkok
+echo [6] Mumbai [7] Bangalore [8] Jakarta [9] Kuala Lumpur [10] Manila
+echo [11] Ho Chi Minh [12] Sydney
+echo [0] Back
+echo.
+echo ** Selected city images will be overwritten **
+echo.
+set /p "city=Select city (0-12): "
+
+if "!city!"=="1" call :SINGLE_CITY "seoul"
+if "!city!"=="2" call :SINGLE_CITY "tokyo"
+if "!city!"=="3" call :SINGLE_CITY "beijing"
+if "!city!"=="4" call :SINGLE_CITY "singapore"
+if "!city!"=="5" call :SINGLE_CITY "bangkok"
+if "!city!"=="6" call :SINGLE_CITY "mumbai"
+if "!city!"=="7" call :SINGLE_CITY "bangalore"
+if "!city!"=="8" call :SINGLE_CITY "jakarta"
+if "!city!"=="9" call :SINGLE_CITY "kuala_lumpur"
+if "!city!"=="10" call :SINGLE_CITY "manila"
+if "!city!"=="11" call :SINGLE_CITY "ho_chi_minh"
+if "!city!"=="12" call :SINGLE_CITY "sydney"
+if "!city!"=="0" goto :INDIVIDUAL_MENU
+
+echo Invalid selection.
+pause
+goto :ASIA_PACIFIC_CITIES
+
+:EUROPE_CITIES
+cls
+echo.
+echo Europe Cities:
+echo ===============================================================
+echo [1] London [2] Paris [3] Berlin [4] Amsterdam [5] Zurich
+echo [6] Stockholm [7] Barcelona [8] Rome [9] Istanbul [10] Moscow
+echo [11] Prague [12] Vienna
+echo [0] Back
+echo.
+echo ** Selected city images will be overwritten **
+echo.
+set /p "city=Select city (0-12): "
+
+if "!city!"=="1" call :SINGLE_CITY "london"
+if "!city!"=="2" call :SINGLE_CITY "paris"
+if "!city!"=="3" call :SINGLE_CITY "berlin"
+if "!city!"=="4" call :SINGLE_CITY "amsterdam"
+if "!city!"=="5" call :SINGLE_CITY "zurich"
+if "!city!"=="6" call :SINGLE_CITY "stockholm"
+if "!city!"=="7" call :SINGLE_CITY "barcelona"
+if "!city!"=="8" call :SINGLE_CITY "rome"
+if "!city!"=="9" call :SINGLE_CITY "istanbul"
+if "!city!"=="10" call :SINGLE_CITY "moscow"
+if "!city!"=="11" call :SINGLE_CITY "prague"
+if "!city!"=="12" call :SINGLE_CITY "vienna"
+if "!city!"=="0" goto :INDIVIDUAL_MENU
+
+echo Invalid selection.
+pause
+goto :EUROPE_CITIES
+
+:NORTH_AMERICA_CITIES
+cls
+echo.
+echo North America Cities:
+echo ===============================================================
+echo [1] New York [2] Los Angeles [3] Chicago [4] Toronto [5] Boston
+echo [6] Miami [7] San Francisco [8] Washington DC [9] Seattle [10] Vancouver
+echo [0] Back
+echo.
+echo ** Selected city images will be overwritten **
+echo.
+set /p "city=Select city (0-10): "
+
+if "!city!"=="1" call :SINGLE_CITY "new_york"
+if "!city!"=="2" call :SINGLE_CITY "los_angeles"
+if "!city!"=="3" call :SINGLE_CITY "chicago"
+if "!city!"=="4" call :SINGLE_CITY "toronto"
+if "!city!"=="5" call :SINGLE_CITY "boston"
+if "!city!"=="6" call :SINGLE_CITY "miami"
+if "!city!"=="7" call :SINGLE_CITY "san_francisco"
+if "!city!"=="8" call :SINGLE_CITY "washington_dc"
+if "!city!"=="9" call :SINGLE_CITY "seattle"
+if "!city!"=="10" call :SINGLE_CITY "vancouver"
+if "!city!"=="0" goto :INDIVIDUAL_MENU
+
+echo Invalid selection.
+pause
+goto :NORTH_AMERICA_CITIES
+
+:MIDDLE_EAST_AFRICA_CITIES
+cls
+echo.
+echo Middle East and Africa Cities:
+echo ===============================================================
+echo [1] Dubai [2] Riyadh [3] Tehran [4] Cairo
+echo [5] Johannesburg [6] Nairobi [7] Casablanca [8] Tel Aviv
+echo [0] Back
+echo.
+echo ** Selected city images will be overwritten **
+echo.
+set /p "city=Select city (0-8): "
+
+if "!city!"=="1" call :SINGLE_CITY "dubai"
+if "!city!"=="2" call :SINGLE_CITY "riyadh"
+if "!city!"=="3" call :SINGLE_CITY "tehran"
+if "!city!"=="4" call :SINGLE_CITY "cairo"
+if "!city!"=="5" call :SINGLE_CITY "johannesburg"
+if "!city!"=="6" call :SINGLE_CITY "nairobi"
+if "!city!"=="7" call :SINGLE_CITY "casablanca"
+if "!city!"=="8" call :SINGLE_CITY "tel_aviv"
+if "!city!"=="0" goto :INDIVIDUAL_MENU
+
+echo Invalid selection.
+pause
+goto :MIDDLE_EAST_AFRICA_CITIES
+
+:SOUTH_AMERICA_CITIES
+cls
+echo.
+echo South America Cities:
+echo ===============================================================
+echo [1] Sao Paulo [2] Rio de Janeiro [3] Buenos Aires [4] Santiago [5] Mexico City
+echo [0] Back
+echo.
+echo ** Selected city images will be overwritten **
+echo.
+set /p "city=Select city (0-5): "
+
+if "!city!"=="1" call :SINGLE_CITY "sao_paulo"
+if "!city!"=="2" call :SINGLE_CITY "rio_de_janeiro"
+if "!city!"=="3" call :SINGLE_CITY "buenos_aires"
+if "!city!"=="4" call :SINGLE_CITY "santiago"
+if "!city!"=="5" call :SINGLE_CITY "mexico_city"
+if "!city!"=="0" goto :INDIVIDUAL_MENU
+
+echo Invalid selection.
+pause
+goto :SOUTH_AMERICA_CITIES
+
+:SINGLE_CITY
+echo.
+echo Generating single city: %~1
+echo ===============================================================
+echo Images: 6 (1 city x 6 weather conditions)
+echo Estimated time: 12-24 minutes
+echo Existing images will be overwritten.
+echo.
+
+python create_single_config.py %~1
+
+if exist temp_single_city_config.json (
+    python regional_batch_generator.py --region single_city --config temp_single_city_config.json
+    del temp_single_city_config.json > nul 2>&1
+    echo Single city generation completed!
+) else (
+    echo Error creating config for city: %~1
+    pause
+)
+
+goto :RESULT_MENU
+
+:TEST_RUN
+echo.
+echo Test Run - First 2 cities from Asia-Pacific
+echo ===============================================================
+echo Cities: Seoul, Tokyo
+echo Images: 12 (2 cities x 6 weather conditions)
+echo Time: 30 minutes
+echo Existing images will be overwritten.
+echo.
+python regional_batch_generator.py --region asia_pacific --config global_cities_config.json
+echo Test completed!
+goto :RESULT_MENU
+
+:WEATHER_SELECT
+cls
+echo.
+echo Weather Selection Generation
+echo ===============================================================
+echo Available weather types: sunny, cloudy, rainy, snowy, sunset, foggy
+echo Example: sunny cloudy
+echo.
+echo ** Region images will be overwritten **
+echo.
+set /p "weather=Enter weather types (space separated): "
+echo.
+echo Select region:
+echo [1] Asia-Pacific [2] Europe [3] North America [4] Middle East/Africa [5] South America
+set /p "region_choice=Region: "
+
+set "region_name="
+if "!region_choice!"=="1" set "region_name=asia_pacific"
+if "!region_choice!"=="2" set "region_name=europe"
+if "!region_choice!"=="3" set "region_name=north_america"
+if "!region_choice!"=="4" set "region_name=middle_east_africa"
+if "!region_choice!"=="5" set "region_name=south_america"
+
+if not "!region_name!"=="" (
+    echo.
+    echo Generating !region_name! region with weather: !weather!
+    echo Existing images will be overwritten.
+    echo.
+    python regional_batch_generator.py --region !region_name! --config global_cities_config.json --weather !weather!
+    goto :RESULT_MENU
+) else (
+    echo Invalid region selection.
+    pause
+    goto :WEATHER_SELECT
+)
+
+:SHOW_INFO
+echo.
+echo Region and Timezone Information
+echo ===============================================================
+python regional_batch_generator.py --list --config global_cities_config.json
+echo.
+pause
+goto :MAIN_MENU
+
+:RESULT_MENU
+echo.
+echo ===============================================================
+echo Generation completed!
+echo ===============================================================
+echo.
+echo Results saved to: ComfyUI/output/timezones/
+echo Existing images have been replaced with new ones.
+echo.
+echo [1] Generate another region/city
+echo [2] Open result folder
+echo [3] Clear all generated images
+echo [0] Exit
+echo.
+set /p "result=Select: "
+
+if "!result!"=="1" goto :MAIN_MENU
+if "!result!"=="2" (
+    echo Opening result folder...
+    if exist "..\ComfyUI\output\timezones" (
+        start "" explorer "..\ComfyUI\output\timezones"
+    ) else (
+        echo Result folder does not exist.
+        pause
+    )
+    goto :RESULT_MENU
+)
+if "!result!"=="3" goto :CLEAR_RESULTS
+if "!result!"=="0" goto :EXIT
+
+goto :RESULT_MENU
+
+:CLEAR_RESULTS
+echo.
+echo ===============================================================
+echo Clear Generated Images
+echo ===============================================================
+echo.
+echo Do you want to delete all generated images?
+echo.
+set /p "clear_confirm=Are you sure? (y/n): "
+if /i "!clear_confirm!"=="y" (
+    if exist "..\ComfyUI\output\timezones" (
+        rmdir /s /q "..\ComfyUI\output\timezones" > nul 2>&1
+        echo All generated images have been deleted.
+    ) else (
+        echo No images to delete.
+    )
+) else (
+    echo Deletion cancelled.
+)
+echo.
+pause
+goto :RESULT_MENU
+
+:EXIT
+echo.
+echo Exiting FLUX Krea Global City Image Generator.
+echo.
+echo Generated images can be used in your Flutter app!
+echo Check the ComfyUI/output/timezones/ folder for results.
+echo.
+echo ** Note: ComfyUI automatically overwrites files with same name **
+echo.
+pause
+exit /b 0

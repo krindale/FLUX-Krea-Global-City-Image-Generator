@@ -1,0 +1,528 @@
+{
+  "settings": {
+    "server_url": "http://127.0.0.1:8000",
+    "timeout_seconds": 300,
+    "image_size": {
+      "width": 1024,
+      "height": 1024
+    },
+    "flux_krea_params": {
+      "steps": 35,
+      "scheduler": "simple",
+      "sampler": "euler",
+      "cfg": 1.0,
+      "denoise": 1.0
+    }
+  },
+  "flux_krea_models": {
+    "unet": "flux1-krea-dev_fp8_scaled.safetensors",
+    "clip_text": "t5xxl_fp16.safetensors",
+    "clip_vision": "clip_l.safetensors",
+    "vae": "ae.safetensors",
+    "lora": "low-poly-joy.safetensors",
+    "lora_strength_model": 1.0,
+    "lora_strength_clip": 1.0
+  },
+  "lora_keywords": {
+    "activation": "lo-ply_, noc-lwply,",
+    "style_description": "Low Poly Joy LoRA activation keywords for ultra-angular geometric style"
+  },
+  "prompts": {
+    "positive_template": "{lora_keywords} Stylized {landmark} illustration in low poly art style, geometric polygonal shapes, faceted surfaces, Low polygon count design with angular forms and triangular facets, polygonal clouds, angular horizon line, crystalline atmosphere. Vector graphics feel, clean minimalist composition, perfect for weather app background. Modern low poly aesthetic with crisp geometric edges throughout entire scene, professional UI artwork.{weather_condition}, low poly style background",
+    "negative_template": "blur, haze, soft focus, atmospheric perspective, depth of field, bokeh, motion blur, fog, mist, dreamy, soft lighting, realistic raindrops, photographic snowflakes, natural water drops, organic snow crystals, realistic weather effects, smooth rounded shapes, large raindrops, oversized snowflakes, big weather elements, giant precipitation, huge crystals, massive particles, recognizable raindrop shapes, distinct snowflake patterns, teardrop forms, star-shaped snowflakes, detailed precipitation, complex weather shapes, medium sized particles, visible crystal shapes, prominent weather elements, noticeable precipitation",
+    "style_keywords": "low poly art style, geometric polygonal shapes, faceted surfaces, angular forms, triangular facets, low polygon count, geometric edges, lo-ply_, noc-lwply"
+  },
+  "regions": {
+    "asia_pacific": {
+      "name": "아시아-태평양",
+      "description": "동아시아, 동남아시아, 오세아니아 주요 도시",
+      "cities": [
+        {
+          "name": "seoul",
+          "city": "Seoul",
+          "country": "South Korea",
+          "timezone": "UTC+9",
+          "landmark": "N Seoul Tower",
+          "landmark_description": "communication tower on mountain",
+          "coordinates": [37.5665, 126.9780]
+        },
+        {
+          "name": "tokyo",
+          "city": "Tokyo", 
+          "country": "Japan",
+          "timezone": "UTC+9",
+          "landmark": "Sensoji",
+          "landmark_description": "traditional Buddhist temple",
+          "coordinates": [35.6762, 139.6503]
+        },
+        {
+          "name": "beijing",
+          "city": "Beijing",
+          "country": "China", 
+          "timezone": "UTC+8",
+          "landmark": "Forbidden City",
+          "landmark_description": "ancient Chinese palace complex",
+          "coordinates": [39.9042, 116.4074]
+        },
+        {
+          "name": "singapore",
+          "city": "Singapore",
+          "country": "Singapore",
+          "timezone": "UTC+8",
+          "landmark": "Marina Bay Sands",
+          "landmark_description": "three towers with sky pool",
+          "coordinates": [1.3521, 103.8198]
+        },
+        {
+          "name": "bangkok",
+          "city": "Bangkok",
+          "country": "Thailand",
+          "timezone": "UTC+7",
+          "landmark": "Wat Arun",
+          "landmark_description": "ancient temple with spires",
+          "coordinates": [13.7563, 100.5018]
+        },
+        {
+          "name": "mumbai",
+          "city": "Mumbai",
+          "country": "India",
+          "timezone": "UTC+5:30",
+          "landmark": "Gateway of India",
+          "landmark_description": "stone archway monument",
+          "coordinates": [19.0760, 72.8777]
+        },
+        {
+          "name": "bangalore",
+          "city": "Bangalore",
+          "country": "India",
+          "timezone": "UTC+5:30",
+          "landmark": "Vidhana Soudha",
+          "landmark_description": "government building",
+          "coordinates": [12.9716, 77.5946]
+        },
+        {
+          "name": "jakarta",
+          "city": "Jakarta", 
+          "country": "Indonesia",
+          "timezone": "UTC+7",
+          "landmark": "Monas",
+          "landmark_description": "golden flame monument",
+          "coordinates": [-6.2088, 106.8456]
+        },
+        {
+          "name": "kuala_lumpur",
+          "city": "Kuala Lumpur",
+          "country": "Malaysia",
+          "timezone": "UTC+8",
+          "landmark": "Petronas Twin Towers",
+          "landmark_description": "twin skyscrapers",
+          "coordinates": [3.1390, 101.6869]
+        },
+        {
+          "name": "manila",
+          "city": "Manila",
+          "country": "Philippines",
+          "timezone": "UTC+8",
+          "landmark": "Rizal Park",
+          "landmark_description": "monument in green space",
+          "coordinates": [14.5995, 120.9842]
+        },
+        {
+          "name": "ho_chi_minh",
+          "city": "Ho Chi Minh City",
+          "country": "Vietnam",
+          "timezone": "UTC+7",
+          "landmark": "Independence Palace",
+          "landmark_description": "colonial architecture",
+          "coordinates": [10.8231, 106.6297]
+        },
+        {
+          "name": "sydney",
+          "city": "Sydney",
+          "country": "Australia",
+          "timezone": "UTC+10",
+          "landmark": "Sydney Opera House",
+          "landmark_description": "white shell-shaped building",
+          "coordinates": [-33.8688, 151.2093]
+        }
+      ]
+    },
+    "europe": {
+      "name": "유럽",
+      "description": "서유럽, 동유럽, 북유럽 주요 도시",
+      "cities": [
+        {
+          "name": "london",
+          "city": "London",
+          "country": "United Kingdom",
+          "timezone": "UTC+0",
+          "landmark": "Big Ben",
+          "landmark_description": "tall clock tower",
+          "coordinates": [51.5074, -0.1278]
+        },
+        {
+          "name": "paris",
+          "city": "Paris",
+          "country": "France",
+          "timezone": "UTC+1",
+          "landmark": "Eiffel Tower",
+          "landmark_description": "iconic iron tower",
+          "coordinates": [48.8566, 2.3522]
+        },
+        {
+          "name": "berlin",
+          "city": "Berlin",
+          "country": "Germany",
+          "timezone": "UTC+1",
+          "landmark": "Brandenburg Gate",
+          "landmark_description": "neoclassical monument",
+          "coordinates": [52.5200, 13.4050]
+        },
+        {
+          "name": "amsterdam",
+          "city": "Amsterdam",
+          "country": "Netherlands",
+          "timezone": "UTC+1",
+          "landmark": "Amsterdam Canals",
+          "landmark_description": "narrow historic buildings",
+          "coordinates": [52.3676, 4.9041]
+        },
+        {
+          "name": "zurich",
+          "city": "Zurich",
+          "country": "Switzerland",
+          "timezone": "UTC+1",
+          "landmark": "Grossmünster",
+          "landmark_description": "twin tower church",
+          "coordinates": [47.3769, 8.5417]
+        },
+        {
+          "name": "stockholm",
+          "city": "Stockholm",
+          "country": "Sweden",
+          "timezone": "UTC+1",
+          "landmark": "Stockholm City Hall",
+          "landmark_description": "red brick tower",
+          "coordinates": [59.3293, 18.0686]
+        },
+        {
+          "name": "barcelona",
+          "city": "Barcelona",
+          "country": "Spain",
+          "timezone": "UTC+1",
+          "landmark": "Sagrada Familia",
+          "landmark_description": "unique cathedral",
+          "coordinates": [41.3851, 2.1734]
+        },
+        {
+          "name": "rome",
+          "city": "Rome",
+          "country": "Italy",
+          "timezone": "UTC+1",
+          "landmark": "Colosseum",
+          "landmark_description": "ancient Roman amphitheater",
+          "coordinates": [41.9028, 12.4964]
+        },
+        {
+          "name": "istanbul",
+          "city": "Istanbul",
+          "country": "Turkey",
+          "timezone": "UTC+3",
+          "landmark": "Hagia Sophia",
+          "landmark_description": "historic domed building",
+          "coordinates": [41.0082, 28.9784]
+        },
+        {
+          "name": "moscow",
+          "city": "Moscow",
+          "country": "Russia",
+          "timezone": "UTC+3",
+          "landmark": "Moscow Kremlin",
+          "landmark_description": "red fortress walls",
+          "coordinates": [55.7558, 37.6176]
+        },
+        {
+          "name": "prague",
+          "city": "Prague",
+          "country": "Czech Republic",
+          "timezone": "UTC+1",
+          "landmark": "Prague Castle",
+          "landmark_description": "medieval castle complex",
+          "coordinates": [50.0755, 14.4378]
+        },
+        {
+          "name": "vienna",
+          "city": "Vienna",
+          "country": "Austria",
+          "timezone": "UTC+1",
+          "landmark": "Schönbrunn Palace",
+          "landmark_description": "baroque palace",
+          "coordinates": [48.2082, 16.3738]
+        }
+      ]
+    },
+    "north_america": {
+      "name": "북미",
+      "description": "미국, 캐나다 주요 도시",
+      "cities": [
+        {
+          "name": "new_york",
+          "city": "New York",
+          "country": "United States",
+          "timezone": "UTC-5",
+          "landmark": "Central Park",
+          "landmark_description": "large urban green space with trees",
+          "coordinates": [40.7128, -74.0060]
+        },
+        {
+          "name": "los_angeles",
+          "city": "Los Angeles",
+          "country": "United States",
+          "timezone": "UTC-8",
+          "landmark": "Hollywood Sign",
+          "landmark_description": "white letters on hillside",
+          "coordinates": [34.0522, -118.2437]
+        },
+        {
+          "name": "chicago",
+          "city": "Chicago",
+          "country": "United States",
+          "timezone": "UTC-6",
+          "landmark": "Willis Tower",
+          "landmark_description": "tall black skyscraper",
+          "coordinates": [41.8781, -87.6298]
+        },
+        {
+          "name": "toronto",
+          "city": "Toronto",
+          "country": "Canada",
+          "timezone": "UTC-5",
+          "landmark": "CN Tower",
+          "landmark_description": "tall communication tower",
+          "coordinates": [43.6532, -79.3832]
+        },
+        {
+          "name": "boston",
+          "city": "Boston",
+          "country": "United States",
+          "timezone": "UTC-5",
+          "landmark": "Boston Common",
+          "landmark_description": "historic park",
+          "coordinates": [42.3601, -71.0589]
+        },
+        {
+          "name": "miami",
+          "city": "Miami",
+          "country": "United States",
+          "timezone": "UTC-5",
+          "landmark": "Art Deco District",
+          "landmark_description": "colorful buildings",
+          "coordinates": [25.7617, -80.1918]
+        },
+        {
+          "name": "san_francisco",
+          "city": "San Francisco",
+          "country": "United States",
+          "timezone": "UTC-8",
+          "landmark": "Golden Gate Bridge",
+          "landmark_description": "red suspension bridge",
+          "coordinates": [37.7749, -122.4194]
+        },
+        {
+          "name": "washington_dc",
+          "city": "Washington DC",
+          "country": "United States",
+          "timezone": "UTC-5",
+          "landmark": "United States Capitol",
+          "landmark_description": "white domed government building",
+          "coordinates": [38.9072, -77.0369]
+        },
+        {
+          "name": "seattle",
+          "city": "Seattle",
+          "country": "United States",
+          "timezone": "UTC-8",
+          "landmark": "Space Needle",
+          "landmark_description": "futuristic tower",
+          "coordinates": [47.6062, -122.3321]
+        },
+        {
+          "name": "vancouver",
+          "city": "Vancouver",
+          "country": "Canada",
+          "timezone": "UTC-8",
+          "landmark": "Granville Island",
+          "landmark_description": "waterfront arts district",
+          "coordinates": [49.2827, -123.1207]
+        }
+      ]
+    },
+    "middle_east_africa": {
+      "name": "중동 & 아프리카",
+      "description": "중동, 아프리카 주요 도시",
+      "cities": [
+        {
+          "name": "dubai",
+          "city": "Dubai",
+          "country": "United Arab Emirates",
+          "timezone": "UTC+4",
+          "landmark": "Burj Khalifa",
+          "landmark_description": "tallest skyscraper",
+          "coordinates": [25.2048, 55.2708]
+        },
+        {
+          "name": "riyadh",
+          "city": "Riyadh",
+          "country": "Saudi Arabia",
+          "timezone": "UTC+3",
+          "landmark": "Diriyah",
+          "landmark_description": "historic mud-brick architecture",
+          "coordinates": [24.7136, 46.6753]
+        },
+        {
+          "name": "tehran",
+          "city": "Tehran",
+          "country": "Iran",
+          "timezone": "UTC+3:30",
+          "landmark": "Azadi Tower",
+          "landmark_description": "modern arch monument",
+          "coordinates": [35.6892, 51.3890]
+        },
+        {
+          "name": "cairo",
+          "city": "Cairo",
+          "country": "Egypt",
+          "timezone": "UTC+2",
+          "landmark": "Pyramids of Giza",
+          "landmark_description": "ancient pyramids in desert",
+          "coordinates": [30.0444, 31.2357]
+        },
+        {
+          "name": "johannesburg",
+          "city": "Johannesburg",
+          "country": "South Africa",
+          "timezone": "UTC+2",
+          "landmark": "Carlton Centre",
+          "landmark_description": "tall office building",
+          "coordinates": [-26.2041, 28.0473]
+        },
+        {
+          "name": "nairobi",
+          "city": "Nairobi",
+          "country": "Kenya",
+          "timezone": "UTC+3",
+          "landmark": "Kenyatta International Conference Centre",
+          "landmark_description": "cylindrical tower building",
+          "coordinates": [-1.2921, 36.8219]
+        },
+        {
+          "name": "casablanca",
+          "city": "Casablanca",
+          "country": "Morocco",
+          "timezone": "UTC+0",
+          "landmark": "Hassan II Mosque",
+          "landmark_description": "minaret by ocean",
+          "coordinates": [33.5731, -7.5898]
+        },
+        {
+          "name": "tel_aviv",
+          "city": "Tel Aviv",
+          "country": "Israel",
+          "timezone": "UTC+2",
+          "landmark": "Tel Aviv Beach",
+          "landmark_description": "modern skyline by sea",
+          "coordinates": [32.0853, 34.7818]
+        }
+      ]
+    },
+    "south_america": {
+      "name": "남미",
+      "description": "남미 주요 도시",
+      "cities": [
+        {
+          "name": "sao_paulo",
+          "city": "São Paulo",
+          "country": "Brazil",
+          "timezone": "UTC-3",
+          "landmark": "Paulista Avenue",
+          "landmark_description": "modern skyline",
+          "coordinates": [-23.5505, -46.6333]
+        },
+        {
+          "name": "rio_de_janeiro",
+          "city": "Rio de Janeiro",
+          "country": "Brazil",
+          "timezone": "UTC-3",
+          "landmark": "Christ the Redeemer",
+          "landmark_description": "giant statue on mountain",
+          "coordinates": [-22.9068, -43.1729]
+        },
+        {
+          "name": "buenos_aires",
+          "city": "Buenos Aires",
+          "country": "Argentina",
+          "timezone": "UTC-3",
+          "landmark": "Obelisk",
+          "landmark_description": "tall stone monument",
+          "coordinates": [-34.6118, -58.3960]
+        },
+        {
+          "name": "santiago",
+          "city": "Santiago",
+          "country": "Chile",
+          "timezone": "UTC-3",
+          "landmark": "Santa Lucia Hill",
+          "landmark_description": "historic hilltop park with fortress",
+          "coordinates": [-33.4489, -70.6693]
+        },
+        {
+          "name": "mexico_city",
+          "city": "Mexico City",
+          "country": "Mexico",
+          "timezone": "UTC-6",
+          "landmark": "Metropolitan Cathedral",
+          "landmark_description": "baroque colonial cathedral",
+          "coordinates": [19.4326, -99.1332]
+        }
+      ]
+    }
+  },
+  "weather_conditions": [
+    {
+      "name": "sunny",
+      "condition": "sunny clear blue sky, bright sunlight, geometric low poly white cloud formations",
+      "mood": "bright and cheerful",
+      "app_usage": "default_weather"
+    },
+    {
+      "name": "cloudy",
+      "condition": "cloudy overcast sky, soft diffused lighting, geometric low poly gray cloud formations, angular cloud shapes", 
+      "mood": "soft and calm",
+      "app_usage": "cloudy_weather"
+    },
+    {
+      "name": "rainy",
+      "condition": "rainy dark storm clouds, super tiny triangular crystal fragments falling, microscopic angular geometric particles scattered throughout sky, ultra-minimal crystalline precipitation elements, barely visible faceted triangular shapes, extremely subtle geometric rain effect with super tiny crystal fragments",
+      "mood": "moody and dramatic",
+      "app_usage": "rainy_weather"
+    },
+    {
+      "name": "snowy",
+      "condition": "snowy winter scene, super tiny triangular crystal fragments falling, microscopic angular geometric particles scattered throughout sky, ultra-minimal crystalline snow elements, barely visible faceted triangular shapes, extremely subtle geometric snow effect with super tiny crystal fragments",
+      "mood": "clean and crisp",
+      "app_usage": "winter_weather"
+    },
+    {
+      "name": "sunset",
+      "condition": "golden sunset sky, warm orange and pink colors, geometric low poly cloud formations with sunset lighting",
+      "mood": "warm and romantic",
+      "app_usage": "evening_weather"
+    },
+    {
+      "name": "foggy",
+      "condition": "foggy misty atmosphere, geometric low poly fog elements, angular mist formations, crystalline fog particles",
+      "mood": "mysterious and soft",
+      "app_usage": "misty_weather"
+    }
+  ]
+}
