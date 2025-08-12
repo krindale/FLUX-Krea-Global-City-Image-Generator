@@ -89,11 +89,20 @@ ComfyUI_Batch/
 
 ### 서울 - N Seoul Tower
 
-![Seoul Sunny](Sample/seoul_n_seoul_tower_sunny_lowpoly_00001_.png)
-*Seoul N Seoul Tower - Sunny Weather*
-
-![Seoul Sunset](Sample/seoul_n_seoul_tower_sunset_lowpoly_00001_.png)
-*Seoul N Seoul Tower - Sunset Weather*
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="Sample/seoul_n_seoul_tower_sunny_lowpoly_00001_.png" width="400" alt="Seoul Sunny"/>
+        <br/><em>Seoul N Seoul Tower - Sunny Weather</em>
+      </td>
+      <td align="center">
+        <img src="Sample/seoul_n_seoul_tower_sunset_lowpoly_00001_.png" width="400" alt="Seoul Sunset"/>
+        <br/><em>Seoul N Seoul Tower - Sunset Weather</em>
+      </td>
+    </tr>
+  </table>
+</div>
 
 > **샘플 특징**: 각진 기하학적 저폴리 스타일로 렌더링된 서울타워. 날씨별로 색상과 분위기가 다르게 표현됨.
 - **1024x1024 해상도**: 고해상도 출력
