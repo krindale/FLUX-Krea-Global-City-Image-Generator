@@ -1,0 +1,163 @@
+{
+  "settings": {
+    "server_url": "http://127.0.0.1:8000",
+    "timeout_seconds": 300,
+    "image_size": {
+      "width": 1024,
+      "height": 1024
+    },
+    "flux_krea_params": {
+      "steps": 35,
+      "scheduler": "simple",
+      "sampler": "euler",
+      "cfg": 1.0,
+      "denoise": 1.0
+    }
+  },
+  "flux_krea_models": {
+    "unet": "flux1-krea-dev_fp8_scaled.safetensors",
+    "clip_text": "t5xxl_fp16.safetensors",
+    "clip_vision": "clip_l.safetensors",
+    "vae": "ae.safetensors",
+    "lora": "noc-lwply.safetensors",
+    "lora_strength_model": 1.0,
+    "lora_strength_clip": 1.0
+  },
+  "lora_keywords": {
+    "activation": "lo-ply_, noc-lwply,",
+    "style_description": "Low Poly Joy LoRA activation keywords for ultra-angular geometric style"
+  },
+  "prompts": {
+    "positive_template": "{lora_keywords} Stylized {landmark} illustration in low poly art style, geometric polygonal shapes, faceted surfaces, Low polygon count design with angular forms and triangular facets, polygonal clouds, angular horizon line, crystalline atmosphere. Vector graphics feel, clean minimalist composition, perfect for weather app background. Modern low poly aesthetic with crisp geometric edges throughout entire scene, professional UI artwork.{weather_condition}, low poly style background",
+    "negative_template": "blur, haze, soft focus, atmospheric perspective, depth of field, bokeh, motion blur, fog, mist, dreamy, soft lighting, realistic raindrops, photographic snowflakes, natural water drops, organic snow crystals, realistic weather effects, smooth rounded shapes, large raindrops, oversized snowflakes, big weather elements, giant precipitation, huge crystals, massive particles, recognizable raindrop shapes, distinct snowflake patterns, teardrop forms, star-shaped snowflakes, detailed precipitation, complex weather shapes, medium sized particles, visible crystal shapes, prominent weather elements, noticeable precipitation",
+    "style_keywords": "low poly art style, geometric polygonal shapes, faceted surfaces, angular forms, triangular facets, low polygon count, geometric edges, lo-ply_, noc-lwply"
+  },
+  "regional_fallbacks": {
+    "northern_india": {
+      "name": "Northern India",
+      "description": "Northern India regions excluding Delhi/Mumbai",
+      "representative_landmark": "Taj Mahal",
+      "landmark_description": "white marble mausoleum with domes and minarets",
+      "timezone": "UTC+5:30",
+      "coordinates": [27.1751, 78.0421],
+      "coverage_area": "Northern and central India regions",
+      "priority": 1,
+      "population": "400M+"
+    },
+    "china_inland": {
+      "name": "China Inland",
+      "description": "Central and western China regions excluding Beijing/Shanghai",
+      "representative_landmark": "Great Wall of China",
+      "landmark_description": "ancient stone wall winding through mountains",
+      "timezone": "UTC+8",
+      "coordinates": [40.4319, 116.5704],
+      "coverage_area": "Central and western China regions",
+      "priority": 1,
+      "population": "1B+"
+    },
+    "southeast_asia_extended": {
+      "name": "Southeast Asia Extended",
+      "description": "Java Island Indonesia, Luzon Island Philippines, etc.",
+      "representative_landmark": "Borobudur Temple",
+      "landmark_description": "ancient Buddhist temple with multiple tiers",
+      "timezone": "UTC+7",
+      "coordinates": [-7.6079, 110.2038],
+      "coverage_area": "Java Island, Luzon Island, and surrounding areas",
+      "priority": 1,
+      "population": "300M+"
+    },
+    "west_africa": {
+      "name": "West Africa",
+      "description": "Nigeria Lagos region and surrounding areas",
+      "representative_landmark": "African Baobab Tree",
+      "landmark_description": "massive ancient baobab tree in savanna landscape",
+      "timezone": "UTC+1",
+      "coordinates": [6.5244, 3.3792],
+      "coverage_area": "West African coastal and inland regions",
+      "priority": 1,
+      "population": "200M+"
+    },
+    "eastern_europe": {
+      "name": "Eastern Europe",
+      "description": "Poland, Ukraine, Romania, etc.",
+      "representative_landmark": "Carpathian Castle",
+      "landmark_description": "medieval castle on mountain cliff",
+      "timezone": "UTC+2",
+      "coordinates": [49.2328, 24.0062],
+      "coverage_area": "Eastern European plains and Carpathian regions",
+      "priority": 2,
+      "population": "100M+"
+    },
+    "northern_andes": {
+      "name": "Northern Andes",
+      "description": "Colombia, Peru, etc.",
+      "representative_landmark": "Machu Picchu",
+      "landmark_description": "ancient Inca ruins on mountain peak",
+      "timezone": "UTC-5",
+      "coordinates": [-13.1631, -72.5450],
+      "coverage_area": "Northern Andean highlands and Amazon basin",
+      "priority": 2,
+      "population": "80M+"
+    },
+    "central_asia": {
+      "name": "Central Asia",
+      "description": "Kazakhstan, Uzbekistan, etc.",
+      "representative_landmark": "Silk Road Caravanserai",
+      "landmark_description": "ancient trading post in vast steppe",
+      "timezone": "UTC+6",
+      "coordinates": [48.0196, 66.9237],
+      "coverage_area": "Central Asian steppes and desert regions",
+      "priority": 3,
+      "population": "50M+"
+    },
+    "oceania_extended": {
+      "name": "Oceania Extended",
+      "description": "New Zealand, Fiji, Papua New Guinea, etc.",
+      "representative_landmark": "Milford Sound",
+      "landmark_description": "dramatic fjord with waterfalls and cliffs",
+      "timezone": "UTC+12",
+      "coordinates": [-44.6700, 167.9250],
+      "coverage_area": "New Zealand and Pacific island nations",
+      "priority": 3,
+      "population": "10M+"
+    }
+  },
+  "weather_conditions": [
+    {
+      "name": "sunny",
+      "condition": "sunny clear blue sky, bright sunlight, geometric low poly white cloud formations",
+      "mood": "bright and cheerful",
+      "app_usage": "default_weather"
+    },
+    {
+      "name": "cloudy",
+      "condition": "cloudy overcast sky, soft diffused lighting, geometric low poly gray cloud formations, angular cloud shapes",
+      "mood": "soft and calm",
+      "app_usage": "cloudy_weather"
+    },
+    {
+      "name": "rainy",
+      "condition": "rainy dark storm clouds, super tiny triangular crystal fragments falling, microscopic angular geometric particles scattered throughout sky, ultra-minimal crystalline precipitation elements, barely visible faceted triangular shapes, extremely subtle geometric rain effect with super tiny crystal fragments",
+      "mood": "moody and dramatic",
+      "app_usage": "rainy_weather"
+    },
+    {
+      "name": "snowy",
+      "condition": "snowy winter scene, super tiny triangular crystal fragments falling, microscopic angular geometric particles scattered throughout sky, ultra-minimal crystalline snow elements, barely visible faceted triangular shapes, extremely subtle geometric snow effect with super tiny crystal fragments",
+      "mood": "clean and crisp",
+      "app_usage": "winter_weather"
+    },
+    {
+      "name": "sunset",
+      "condition": "golden sunset sky, warm orange and pink colors, geometric low poly cloud formations with sunset lighting",
+      "mood": "warm and romantic",
+      "app_usage": "evening_weather"
+    },
+    {
+      "name": "foggy",
+      "condition": "foggy misty atmosphere, geometric low poly fog elements, angular mist formations, crystalline fog particles",
+      "mood": "mysterious and soft",
+      "app_usage": "misty_weather"
+    }
+  ]
+}

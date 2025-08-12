@@ -199,9 +199,9 @@ class RegionalBatchGenerator:
         return success
     
     def generate_region_batch(self, region_name: str, config_file: str = "global_cities_config.json", weather_filter: List[str] = None):
-        """Execute regional batch generation"""
+        """지역별 배치 생성 실행"""
         
-        # Load configuration file
+        # 설정 파일 로드
         try:
             with open(config_file, 'r', encoding='utf-8') as f:
                 config = json.load(f)
@@ -212,7 +212,7 @@ class RegionalBatchGenerator:
             print(f"❌ Invalid configuration file format: {config_file}")
             return
         
-        # Check region
+        # 지역 확인
         if region_name not in config['regions']:
             print(f"❌ Region not found: {region_name}")
             print(f"Available regions: {list(config['regions'].keys())}")
@@ -222,11 +222,11 @@ class RegionalBatchGenerator:
         cities = region['cities']
         weather_conditions = config['weather_conditions']
         
-        # Apply weather filter
+        # 날씨 필터 적용
         if weather_filter:
             weather_conditions = [w for w in weather_conditions if w['name'] in weather_filter]
         
-        # Calculate timezone statistics
+        # 시간대별 통계 계산
         timezone_stats = {}
         for city in cities:
             tz = city['timezone']
@@ -234,21 +234,21 @@ class RegionalBatchGenerator:
                 timezone_stats[tz] = []
             timezone_stats[tz].append(city['city'])
         
-        # Output batch information
+        # 배치 정보 출력
         total_images = len(cities) * len(weather_conditions)
-        print(f"🚀 Regional FLUX Krea batch generation started!")
-        print(f"📍 Region: {region['name']} ({region['description']})")
-        print(f"🏙️ Cities: {len(cities)}")
-        print(f"🌤️ Weather conditions: {len(weather_conditions)}")
+        print(f"🚀 지역별 FLUX Krea 배치 생성 시작!")
+        print(f"📍 지역: {region['name']} ({region['description']})")
+        print(f"🏙️ 도시 수: {len(cities)}개")
+        print(f"🌤️ 날씨 조건: {len(weather_conditions)}개")
         if weather_filter:
-            print(f"🔍 Weather filter: {weather_filter}")
-        print(f"🖼️ Total images to generate: {total_images}")
-        print(f"⏱️ Estimated time: {total_images * 3} minutes")
+            print(f"🔍 날씨 필터: {weather_filter}")
+        print(f"🖼️ 총 생성 이미지: {total_images}개")
+        print(f"⏱️ 예상 소요시간: {total_images * 3}분")
         print()
-        print("🕐 Timezone distribution:")
+        print("🕐 시간대별 도시 분포:")
         for tz, city_list in sorted(timezone_stats.items()):
             folder_name = self.normalize_timezone(tz)
-            print(f"   {tz} ({folder_name}): {len(city_list)} cities")
+            print(f"   {tz} ({folder_name}): {len(city_list)}개 도시")
             print(f"      -> {', '.join(city_list)}")
         print("="*60)
         
@@ -257,7 +257,7 @@ class RegionalBatchGenerator:
         failed_images = []
         timezone_results = {}
         
-        # Process by city
+        # 도시별 진행
         for city_idx, city in enumerate(cities, 1):
             timezone = city['timezone']
             if timezone not in timezone_results:
@@ -267,9 +267,9 @@ class RegionalBatchGenerator:
             print(f"🏛️ {city['landmark']} ({city['timezone']})")
             print("-" * 40)
             
-            # Generate by weather
+            # 날씨별 생성
             for weather_idx, weather in enumerate(weather_conditions, 1):
-                print(f"[{weather_idx}/{len(weather_conditions)}] {weather['name']} weather")
+                print(f"[{weather_idx}/{len(weather_conditions)}] {weather['name']} 날씨")
                 
                 if self.generate_city_image(city, weather):
                     success_count += 1
@@ -279,17 +279,17 @@ class RegionalBatchGenerator:
                     timezone_results[timezone]['failed'] += 1
                     failed_images.append(f"{city['city']} ({timezone}) - {weather['name']}")
                 
-                # Server overload prevention delay
+                # 서버 과부하 방지 딜레이
                 time.sleep(1)
         
-        # Results summary
+        # 결과 요약
         print("\n" + "="*60)
-        print(f"🎉 {region['name']} regional batch generation completed!")
-        print(f"✅ Success: {success_count}")
-        print(f"❌ Failed: {failed_count}")
-        print(f"📊 Success rate: {(success_count/total_images)*100:.1f}%")
+        print(f"🎉 {region['name']} 지역 배치 생성 완료!")
+        print(f"✅ 성공: {success_count}개")
+        print(f"❌ 실패: {failed_count}개")
+        print(f"📊 성공률: {(success_count/total_images)*100:.1f}%")
         
-        print(f"\n🕐 Results by timezone:")
+        print(f"\n🕐 시간대별 결과:")
         for tz in sorted(timezone_results.keys()):
             result = timezone_results[tz]
             folder_name = self.normalize_timezone(tz)
@@ -298,78 +298,80 @@ class RegionalBatchGenerator:
             print(f"   {tz} ({folder_name}): {result['success']}/{total_tz} ({success_rate:.1f}%)")
         
         if failed_images:
-            print(f"\n❌ Failed image list:")
-            for failed in failed_images:
-                print(f"   - {failed}")
+            print(f"\n❌ 실패한 이미지 목록:")
+            for img in failed_images:
+                print(f"   - {img}")
         
-        print(f"\n📁 Results location:")
+        print(f"\n📁 결과물 위치:")
         print(f"   ComfyUI/output/timezones/")
         for tz in sorted(timezone_results.keys()):
             folder_name = self.normalize_timezone(tz)
-            print(f"   -> {folder_name}/")
-
-def list_available_regions(config_file: str = "global_cities_config.json"):
-    """Output available region list"""
-    try:
-        with open(config_file, 'r', encoding='utf-8') as f:
-            config = json.load(f)
-    except FileNotFoundError:
-        print(f"❌ Configuration file not found: {config_file}")
-        return
-    except json.JSONDecodeError:
-        print(f"❌ Invalid configuration file format: {config_file}")
-        return
-
-    print("🌍 Available regions:")
-    
-    all_timezones = set()
-    
-    for region_key, region_data in config['regions'].items():
-        cities_count = len(region_data['cities'])
+            print(f"   ├── {folder_name}/  ({tz})")
         
-        # Timezone statistics for this region
-        region_timezones = {}
-        for city in region_data['cities']:
-            tz = city['timezone']
-            all_timezones.add(tz)
-            if tz not in region_timezones:
-                region_timezones[tz] = 0
-            region_timezones[tz] += 1
-        
-        print(f"\n🌍 {region_key}")
-        print(f"   Name: {region_data['name']}")
-        print(f"   Description: {region_data['description']}")
-        print(f"   Cities: {cities_count}")
-        print(f"   Expected images: {cities_count * 6}")
-        print(f"   Timezones: {', '.join(sorted(region_timezones.keys()))}")
+        print("="*60)
     
-    print(f"\n🕐 All timezone list ({len(all_timezones)}):")
-    for tz in sorted(all_timezones):
-        print(f"   {tz}")
+    def list_regions(self, config_file: str = "global_cities_config.json"):
+        """사용 가능한 지역 목록 출력"""
+        try:
+            with open(config_file, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+        except FileNotFoundError:
+            print(f"❌ Configuration file not found: {config_file}")
+            return
+        
+        print("🌍 사용 가능한 지역:")
+        print("="*50)
+        
+        all_timezones = set()
+        for region_key, region_data in config['regions'].items():
+            cities_count = len(region_data['cities'])
+            
+            # 해당 지역의 시간대 통계
+            region_timezones = {}
+            for city in region_data['cities']:
+                tz = city['timezone']
+                if tz not in region_timezones:
+                    region_timezones[tz] = 0
+                region_timezones[tz] += 1
+                all_timezones.add(tz)
+            
+            print(f"📍 {region_key}")
+            print(f"   이름: {region_data['name']}")
+            print(f"   설명: {region_data['description']}")
+            print(f"   도시 수: {cities_count}개")
+            print(f"   예상 이미지: {cities_count * 6}개")
+            print(f"   시간대: {', '.join(sorted(region_timezones.keys()))}")
+            print()
+        
+        print(f"🕐 전체 시간대 목록 ({len(all_timezones)}개):")
+        for tz in sorted(all_timezones):
+            folder_name = RegionalBatchGenerator("").normalize_timezone(tz)
+            print(f"   {tz} -> {folder_name}/")
 
 def main():
-    parser = argparse.ArgumentParser(description='Regional city landmark image batch generator (timezone-based folders)')
-    parser.add_argument('--region', '-r', type=str, help='Region name to generate')
-    parser.add_argument('--list', '-l', action='store_true', help='Show available region list')
-    parser.add_argument('--weather', '-w', nargs='+', help='Generate specific weather only (e.g. sunny cloudy)')
-    parser.add_argument('--config', '-c', default='global_cities_config.json', help='Configuration file path')
-    parser.add_argument('--server', '-s', default='http://127.0.0.1:8000', help='ComfyUI server URL')
+    parser = argparse.ArgumentParser(description='지역별 도시 랜드마크 이미지 배치 생성기 (시간대별 폴더)')
+    parser.add_argument('--region', '-r', type=str, help='생성할 지역 이름')
+    parser.add_argument('--list', '-l', action='store_true', help='사용 가능한 지역 목록 표시')
+    parser.add_argument('--weather', '-w', nargs='+', help='특정 날씨만 생성 (예: sunny cloudy)')
+    parser.add_argument('--config', '-c', default='global_cities_config.json', help='설정 파일 경로')
+    parser.add_argument('--server', '-s', default='http://127.0.0.1:8000', help='ComfyUI 서버 URL')
     
     args = parser.parse_args()
     
+    generator = RegionalBatchGenerator(args.server)
+    
     if args.list:
-        list_available_regions(args.config)
+        generator.list_regions(args.config)
         return
     
     if not args.region:
-        print("❌ Please specify a region. Use --list option to check available regions.")
+        print("❌ 지역을 지정해주세요. --list 옵션으로 사용 가능한 지역을 확인하세요.")
         return
     
-    print("🎨 Regional Low Poly City Landmark Image Generator")
-    print("FLUX Krea + Low Poly Joy LoRA Style | Timezone-based Folder Structure")
-    print("="*70)
+    print("🎨 지역별 Low Poly 도시 랜드마크 이미지 생성기")
+    print("FLUX Krea + Low Poly Joy LoRA 스타일 | 시간대별 폴더 구조")
+    print("="*60)
     
-    generator = RegionalBatchGenerator(args.server)
     generator.generate_region_batch(args.region, args.config, args.weather)
 
 if __name__ == "__main__":
