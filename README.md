@@ -7,6 +7,7 @@ Low Poly 스타일의 날씨별 도시 랜드마크 이미지를 자동 생성�
 ## 🌟 주요 특징
 
 - **47개 주요 도시**의 대표 랜드마크 이미지 생성
+- **8개 지역 폴백**으로 추가적인 지역 커버리지 제공
 - **6가지 날씨 조건** (맑음, 흐림, 비, 눈, 일몰, 안개)
 - **FLUX Krea + NOC Low Poly LoRA** 스타일 적용
 - **시간대별 폴더 구조**로 자동 정리
@@ -17,11 +18,14 @@ Low Poly 스타일의 날씨별 도시 랜드마크 이미지를 자동 생성�
 
 ```
 ComfyUI_Batch/
-├── easy_batch_generator.bat      # 메인 실행 파일
-├── global_cities_config.json     # 도시 설정 파일
-├── regional_batch_generator.py   # 지역별 생성 스크립트
-├── create_single_config.py       # 개별 도시 설정 생성
-└── deleted/                      # 삭제된 파일들 백업
+├── easy_batch_generator.bat        # 메인 실행 파일
+├── global_cities_config.json       # 47개 도시 설정 파일
+├── regional_batch_generator.py     # 지역별 생성 스크립트
+├── regional_fallback_config.json   # 8개 지역 폴백 설정 파일
+├── regional_fallback_generator.py  # 지역 폴백 생성 스크립트
+├── regional_batch_generator_korean.py  # 한국어 인터페이스 버전
+├── create_single_config.py         # 개별 도시 설정 생성
+└── deleted/                        # 삭제된 파일들 백업
 ```
 
 ## 🚀 사용법
@@ -33,12 +37,13 @@ ComfyUI_Batch/
 
 ### 2. 메뉴 옵션
 - **[1-5]** 지역별 생성 (아시아-태평양, 유럽, 북미, 중동/아프리카, 남미)
-- **[6]** 전체 지역 생성 (47개 도시, 282개 이미지, 9-14시간)
-- **[7]** 개별 도시 선택
-- **[8]** 테스트 실행 (처음 2개 도시)
-- **[9]** 특정 날씨만 생성
-- **[10]** 지역 정보 표시
-- **[11]** 기존 이미지 삭제
+- **[6]** 지역 폴백 생성 (8개 지역, 48개 이미지, 2-3시간)
+- **[7]** 전체 지역 생성 (47개 도시, 282개 이미지, 9-14시간)
+- **[8]** 개별 도시 선택
+- **[9]** 테스트 실행 (처음 2개 도시)
+- **[10]** 특정 날씨만 생성
+- **[11]** 지역 정보 표시
+- **[12]** 기존 이미지 삭제
 
 ## 🌍 지원 도시 (47개)
 
@@ -69,6 +74,22 @@ ComfyUI_Batch/
 - São Paulo (Paulista Avenue), Rio de Janeiro (Christ the Redeemer)
 - Buenos Aires (Obelisk), Santiago (Santa Lucia Hill)
 - Mexico City (Metropolitan Cathedral)
+
+## 🌐 지역 폴백 (8개 지역)
+
+추가적인 지역 커버리지를 위한 대표 랜드마크 이미지:
+
+### 추가 커버리지 지역
+- **Northern India** - Taj Mahal (UTC+5:30)
+- **China Inland** - Great Wall of China (UTC+8) 
+- **Southeast Asia Extended** - Angkor Wat (UTC+7)
+- **West Africa** - Mosque of Djenné (UTC+0)
+- **Eastern Europe** - St. Basil's Cathedral (UTC+3)
+- **Northern Andes** - Machu Picchu (UTC-5)
+- **Central Asia** - Registan Square (UTC+5)
+- **Oceania Extended** - Ayers Rock (UTC+9:30)
+
+> **폴백 시스템**: 메인 47개 도시로 커버되지 않는 지역을 대표하는 랜드마크들로, 각 지역의 문화적 특징을 반영합니다.
 
 ## 🌤️ 날씨 조건
 
@@ -153,22 +174,25 @@ ComfyUI/output/timezones/
 
 ## 📊 생성 시간 예상
 
-| 지역 | 도시 수 | 이미지 수 | 예상 시간 |
-|------|---------|-----------|-----------|
+| 지역 | 도시/지역 수 | 이미지 수 | 예상 시간 |
+|------|-------------|-----------|-----------|
 | 아시아-태평양 | 12 | 72 | 2-3시간 |
 | 유럽 | 12 | 72 | 2-3시간 |
 | 북미 | 10 | 60 | 2-3시간 |
 | 중동/아프리카 | 8 | 48 | 1-2시간 |
 | 남미 | 5 | 30 | 1-2시간 |
-| **전체** | **47** | **282** | **9-14시간** |
+| **지역 폴백** | **8** | **48** | **2-3시간** |
+| **전체 (도시)** | **47** | **282** | **9-14시간** |
+| **전체 (폴백 포함)** | **55** | **330** | **11-17시간** |
 
 ## 💡 사용 팁
 
-1. **테스트 실행 먼저**: [8] Test Run으로 시스템 확인
-2. **개별 도시 생성**: [7] Individual City로 원하는 도시만 선택
-3. **특정 날씨만**: [9] Weather Selection으로 필요한 날씨만 생성
-4. **기존 이미지 관리**: [11] Clear Images로 기존 파일 정리
-5. **시간대 활용**: Flutter 앱에서 현재 시간대에 맞는 이미지 로드
+1. **테스트 실행 먼저**: [9] Test Run으로 시스템 확인
+2. **개별 도시 생성**: [8] Individual City로 원하는 도시만 선택
+3. **지역 폴백 활용**: [6] Regional Fallbacks로 추가 지역 커버리지 확보
+4. **특정 날씨만**: [10] Weather Selection으로 필요한 날씨만 생성
+5. **기존 이미지 관리**: [12] Clear Images로 기존 파일 정리
+6. **시간대 활용**: Flutter 앱에서 현재 시간대에 맞는 이미지 로드
 
 ## 🎯 Flutter 앱 연동 예시
 
@@ -194,6 +218,7 @@ String getCityImage(String city, String weather) {
 
 ## 🔄 업데이트 히스토리
 
+- **v1.4** - 지역 폴백 시스템 추가 (8개 추가 지역), 영어 인터페이스 전환, NOC Low Poly LoRA 적용
 - **v1.3** - Melbourne, Hong Kong, Shanghai 제거 (47개 도시)
 - **v1.2** - 랜드마크 업데이트 (Metropolitan Cathedral, Santa Lucia Hill, Central Park 등)
 - **v1.1** - 불필요한 파일 정리, 폴더 구조 최적화
