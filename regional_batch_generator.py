@@ -50,7 +50,7 @@ class RegionalBatchGenerator:
                 "inputs": {
                     "model": ["38", 0],
                     "clip": ["40", 0],
-                    "lora_name": "low-poly-joy.safetensors",
+                    "lora_name": "noc-lwply.safetensors",
                     "strength_model": 1.0,
                     "strength_clip": 1.0
                 },

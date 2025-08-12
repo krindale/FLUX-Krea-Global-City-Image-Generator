@@ -33,7 +33,7 @@ FLUX Krea Global City Image Generator is a ComfyUI-based batch system that gener
   - `flux1-krea-dev_fp8_scaled.safetensors` (UNET)
   - `clip_l.safetensors`, `t5xxl_fp16.safetensors` (CLIP)
   - `ae.safetensors` (VAE)
-  - `low-poly-joy.safetensors` (LoRA)
+  - `noc-lwply.safetensors` (LoRA)
 
 ### Data Structure
 - **5 Regions**: asia_pacific, europe, north_america, middle_east_africa, south_america  
@@ -52,6 +52,7 @@ FLUX Krea Global City Image Generator is a ComfyUI-based batch system that gener
 - **Positive template**: Uses LoRA activation keywords (`lo-ply_, noc-lwply`) + landmark + weather + style descriptors
 - **Negative template**: Excludes realistic weather effects, smooth shapes, large particles
 - **Critical**: Maintain geometric/angular terminology throughout prompts
+- **LoRA Settings**: `noc-lwply.safetensors` with strength_model: 1.0, strength_clip: 1.0
 
 ### Timezone Mapping
 - Uses `normalize_timezone()` function: `UTC+8` → `utc_plus_8`, `UTC-5` → `utc_minus_5`
