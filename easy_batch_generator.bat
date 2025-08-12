@@ -26,29 +26,31 @@ echo [2] Europe (12 cities, 72 images, 2-3 hours)
 echo [3] North America (10 cities, 60 images, 2-3 hours)
 echo [4] Middle East and Africa (8 cities, 48 images, 1-2 hours)
 echo [5] South America (5 cities, 30 images, 1-2 hours)
-echo [6] All Regions (47 cities, 282 images, 9-14 hours)
-echo [7] Individual City Selection
-echo [8] Test Run (First 2 cities)
-echo [9] Weather Selection
-echo [10] Show Info
-echo [11] Clear Existing Images
+echo [6] Regional Fallbacks (8 regions, 48 images, 2-3 hours)
+echo [7] All Regions (47 cities, 282 images, 9-14 hours)
+echo [8] Individual City Selection
+echo [9] Test Run (First 2 cities)
+echo [10] Weather Selection
+echo [11] Show Info
+echo [12] Clear Existing Images
 echo [0] Exit
 echo.
 echo ** Existing images will be automatically overwritten **
 echo.
-set /p "choice=Please select (0-11): "
+set /p "choice=Please select (0-12): "
 
 if "!choice!"=="1" goto :ASIA_PACIFIC
 if "!choice!"=="2" goto :EUROPE
 if "!choice!"=="3" goto :NORTH_AMERICA
 if "!choice!"=="4" goto :MIDDLE_EAST_AFRICA
 if "!choice!"=="5" goto :SOUTH_AMERICA
-if "!choice!"=="6" goto :ALL_REGIONS
-if "!choice!"=="7" goto :INDIVIDUAL_MENU
-if "!choice!"=="8" goto :TEST_RUN
-if "!choice!"=="9" goto :WEATHER_SELECT
-if "!choice!"=="10" goto :SHOW_INFO
-if "!choice!"=="11" goto :CLEAR_IMAGES
+if "!choice!"=="6" goto :REGIONAL_FALLBACK
+if "!choice!"=="7" goto :ALL_REGIONS
+if "!choice!"=="8" goto :INDIVIDUAL_MENU
+if "!choice!"=="9" goto :TEST_RUN
+if "!choice!"=="10" goto :WEATHER_SELECT
+if "!choice!"=="11" goto :SHOW_INFO
+if "!choice!"=="12" goto :CLEAR_IMAGES
 if "!choice!"=="0" goto :EXIT
 
 echo Invalid selection. Please try again.
@@ -123,6 +125,18 @@ echo ===============================================================
 echo Existing images will be automatically overwritten.
 echo.
 python regional_batch_generator.py --region south_america --config global_cities_config.json
+goto :RESULT_MENU
+
+:REGIONAL_FALLBACK
+echo.
+echo Starting Regional Fallbacks generation...
+echo ===============================================================
+echo Regions: Northern India, China Inland, Southeast Asia Extended, West Africa, Eastern Europe, Northern Andes, Central Asia, Oceania Extended
+echo Images: 48 (8 regions x 6 weather conditions)
+echo Time: 2-3 hours
+echo Existing images will be automatically overwritten.
+echo.
+python regional_fallback_generator.py --config regional_fallback_config.json
 goto :RESULT_MENU
 
 :ALL_REGIONS

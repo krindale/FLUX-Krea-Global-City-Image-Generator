@@ -34,8 +34,8 @@
   },
   "regions": {
     "asia_pacific": {
-      "name": "아시아-태평양",
-      "description": "동아시아, 동남아시아, 오세아니아 주요 도시",
+      "name": "Asia-Pacific",
+      "description": "Major cities in East Asia, Southeast Asia, and Oceania",
       "cities": [
         {
           "name": "seoul",
@@ -148,8 +148,8 @@
       ]
     },
     "europe": {
-      "name": "유럽",
-      "description": "서유럽, 동유럽, 북유럽 주요 도시",
+      "name": "Europe",
+      "description": "Major cities in Western, Eastern, and Northern Europe",
       "cities": [
         {
           "name": "london",
@@ -262,8 +262,8 @@
       ]
     },
     "north_america": {
-      "name": "북미",
-      "description": "미국, 캐나다 주요 도시",
+      "name": "North America",
+      "description": "Major cities in United States and Canada",
       "cities": [
         {
           "name": "new_york",
@@ -358,8 +358,8 @@
       ]
     },
     "middle_east_africa": {
-      "name": "중동 & 아프리카",
-      "description": "중동, 아프리카 주요 도시",
+      "name": "Middle East & Africa",
+      "description": "Major cities in Middle East and Africa",
       "cities": [
         {
           "name": "dubai",
@@ -436,8 +436,8 @@
       ]
     },
     "south_america": {
-      "name": "남미",
-      "description": "남미 주요 도시",
+      "name": "South America",
+      "description": "Major cities in South America",
       "cities": [
         {
           "name": "sao_paulo",
