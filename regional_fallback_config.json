@@ -55,6 +55,28 @@
       "priority": 1,
       "population": "1B+"
     },
+    "china_south": {
+      "name": "Southern China",
+      "description": "Guangdong, Guangxi, and southern coastal regions",
+      "representative_landmark": "Li River Karst Mountains",
+      "landmark_description": "dramatic limestone peaks rising from river valley",
+      "timezone": "UTC+8",
+      "coordinates": [25.2741, 110.2961],
+      "coverage_area": "Southern China coastal and inland regions",
+      "priority": 1,
+      "population": "300M+"
+    },
+    "east_africa": {
+      "name": "East Africa",
+      "description": "Kenya, Tanzania, Ethiopia highland regions",
+      "representative_landmark": "Mount Kilimanjaro",
+      "landmark_description": "snow-capped volcanic peak rising from savanna",
+      "timezone": "UTC+3",
+      "coordinates": [-3.0674, 37.3556],
+      "coverage_area": "East African highlands and savanna regions",
+      "priority": 2,
+      "population": "450M+"
+    },
     "southeast_asia_extended": {
       "name": "Southeast Asia Extended",
       "description": "Java Island Indonesia, Luzon Island Philippines, etc.",
