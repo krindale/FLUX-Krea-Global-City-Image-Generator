@@ -162,8 +162,8 @@ class RegionalBatchGenerator:
         # Weather condition
         weather_desc = f", {weather['condition']}, {weather['mood']}"
         
-        # Filename: timezone/cityname_landmark_weather_lowpoly
-        filename = f"{timezone_folder}/{city['name']}_{city['landmark'].replace(' ', '_').lower()}_{weather['name']}_lowpoly"
+        # Filename: timezone/cityname_weather.png (all lowercase)
+        filename = f"{timezone_folder}/{city['name'].lower()}_{weather['name'].lower()}"
         
         # Final positive prompt
         positive_prompt = base_template.format(
