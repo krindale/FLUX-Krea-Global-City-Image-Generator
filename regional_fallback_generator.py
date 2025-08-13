@@ -50,10 +50,10 @@ def generate_workflow(config, region_data, weather_condition):
     )
     
     seed = int(time.time() * 1000) % 1000000
-    # 파일명을 지역_날씨.png 형식으로 변경 (all lowercase)
+    # 지역명 폴더에 지역명_날씨.png 형식으로 저장 (all lowercase)
     region_name_clean = normalize_region_name(region_data['name'].lower())
     weather_name = weather_condition['name'].lower()
-    filename = f"regional_fallback/{region_name_clean}_{weather_name}"
+    filename = f"regional_fallback/{region_name_clean}/{region_name_clean}_{weather_name}"
     
     # Use the same workflow structure as regional_batch_generator.py
     workflow = {

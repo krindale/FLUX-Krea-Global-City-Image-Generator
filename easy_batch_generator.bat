@@ -162,25 +162,31 @@ goto :RESULT_MENU
 :INDIVIDUAL_MENU
 cls
 echo.
-echo Individual City Selection
+echo Individual City & Region Selection
 echo ===============================================================
 echo.
+echo MAIN CITIES:
 echo [1] Asia-Pacific cities (12 cities)
 echo [2] Europe cities (12 cities)
 echo [3] North America cities (10 cities)
 echo [4] Middle East and Africa cities (8 cities)
 echo [5] South America cities (5 cities)
+echo.
+echo REGIONAL FALLBACKS:
+echo [6] Regional Fallback Areas (10 regions)
+echo.
 echo [0] Back to main menu
 echo.
-echo ** Selected city images will be overwritten **
+echo ** Selected city/region images will be overwritten **
 echo.
-set /p "region=Select region (0-5): "
+set /p "region=Select option (0-6): "
 
 if "!region!"=="1" goto :ASIA_PACIFIC_CITIES
 if "!region!"=="2" goto :EUROPE_CITIES
 if "!region!"=="3" goto :NORTH_AMERICA_CITIES
 if "!region!"=="4" goto :MIDDLE_EAST_AFRICA_CITIES
 if "!region!"=="5" goto :SOUTH_AMERICA_CITIES
+if "!region!"=="6" goto :FALLBACK_REGIONS
 if "!region!"=="0" goto :MAIN_MENU
 
 echo Invalid selection.
@@ -329,6 +335,64 @@ if "!city!"=="0" goto :INDIVIDUAL_MENU
 echo Invalid selection.
 pause
 goto :SOUTH_AMERICA_CITIES
+
+:FALLBACK_REGIONS
+cls
+echo.
+echo Regional Fallback Areas:
+echo ===============================================================
+echo HIGH PRIORITY:
+echo [1] Northern India [2] China Inland [3] China South [4] Southeast Asia Extended [5] West Africa
+echo.
+echo MEDIUM PRIORITY:
+echo [6] East Africa [7] Eastern Europe [8] Northern Andes
+echo.
+echo LOW PRIORITY:
+echo [9] Central Asia [10] Oceania Extended
+echo.
+echo [0] Back
+echo.
+echo ** Selected region images will be overwritten **
+echo.
+set /p "fallback=Select region (0-10): "
+
+if "!fallback!"=="1" call :SINGLE_FALLBACK "northern_india"
+if "!fallback!"=="2" call :SINGLE_FALLBACK "china_inland"
+if "!fallback!"=="3" call :SINGLE_FALLBACK "china_south"
+if "!fallback!"=="4" call :SINGLE_FALLBACK "southeast_asia_extended"
+if "!fallback!"=="5" call :SINGLE_FALLBACK "west_africa"
+if "!fallback!"=="6" call :SINGLE_FALLBACK "east_africa"
+if "!fallback!"=="7" call :SINGLE_FALLBACK "eastern_europe"
+if "!fallback!"=="8" call :SINGLE_FALLBACK "northern_andes"
+if "!fallback!"=="9" call :SINGLE_FALLBACK "central_asia"
+if "!fallback!"=="10" call :SINGLE_FALLBACK "oceania_extended"
+if "!fallback!"=="0" goto :INDIVIDUAL_MENU
+
+echo Invalid selection.
+pause
+goto :FALLBACK_REGIONS
+
+:SINGLE_FALLBACK
+echo.
+echo Generating regional fallback: %~1
+echo ===============================================================
+echo Images: 6 (1 region x 6 weather conditions)
+echo Estimated time: 12-24 minutes
+echo Existing images will be overwritten.
+echo.
+
+python create_single_config.py %~1
+
+if exist temp_single_fallback_config.json (
+    python regional_fallback_generator.py --regions %~1 --config temp_single_fallback_config.json
+    del temp_single_fallback_config.json > nul 2>&1
+    echo Single region generation completed!
+) else (
+    echo Error creating config for region: %~1
+    pause
+)
+
+goto :RESULT_MENU
 
 :SINGLE_CITY
 echo.
