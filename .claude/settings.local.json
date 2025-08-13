@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(move regional_batch_generator.py regional_batch_generator_korean.py)",
+      "Bash(move regional_batch_generator_english.py regional_batch_generator.py)",
+      "Bash(mv:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(dir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
