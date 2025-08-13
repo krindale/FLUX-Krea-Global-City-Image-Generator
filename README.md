@@ -105,6 +105,7 @@ ComfyUI_Batch/
 - **Low Poly Art Style**: 각진 기하학적 형태
 - **FLUX Krea Model**: 고품질 AI 이미지 생성
 - **NOC Low Poly LoRA**: 초각진 기하학적 스타일
+- **구름 투명화**: remove.bg 사이트를 이용하여 구름 배경 제거 처리
 
 ## 🖼️ 샘플 이미지
 
