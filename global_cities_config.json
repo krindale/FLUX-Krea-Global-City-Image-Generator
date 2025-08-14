@@ -137,6 +137,33 @@
           "coordinates": [10.8231, 106.6297]
         },
         {
+          "name": "shanghai",
+          "city": "Shanghai",
+          "country": "China",
+          "timezone": "UTC+8",
+          "landmark": "The Bund",
+          "landmark_description": "historic waterfront promenade",
+          "coordinates": [31.2304, 121.4737]
+        },
+        {
+          "name": "taipei",
+          "city": "Taipei",
+          "country": "Taiwan",
+          "timezone": "UTC+8",
+          "landmark": "Dihua Street",
+          "landmark_description": "historic traditional shopping street",
+          "coordinates": [25.0330, 121.5654]
+        },
+        {
+          "name": "melbourne",
+          "city": "Melbourne",
+          "country": "Australia",
+          "timezone": "UTC+10",
+          "landmark": "Fitzroy Gardens",
+          "landmark_description": "historic formal gardens with heritage trees",
+          "coordinates": [-37.8136, 144.9631]
+        },
+        {
           "name": "sydney",
           "city": "Sydney",
           "country": "Australia",
@@ -432,6 +459,15 @@
           "landmark": "Tel Aviv Beach",
           "landmark_description": "modern skyline by sea",
           "coordinates": [32.0853, 34.7818]
+        },
+        {
+          "name": "lagos",
+          "city": "Lagos",
+          "country": "Portugal",
+          "timezone": "UTC+0",
+          "landmark": "Ponta da Piedade Lighthouse",
+          "landmark_description": "coastal lighthouse on dramatic cliffs",
+          "coordinates": [37.0833, -8.6667]
         }
       ]
     },

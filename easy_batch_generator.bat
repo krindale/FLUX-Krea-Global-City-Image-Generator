@@ -9,7 +9,7 @@ echo  FLUX Krea + Low Poly Joy LoRA Global City Image Generator
 echo ===============================================================
 echo.
 echo  Timezone-based folder management
-echo  47 major cities landmark image generation  
+echo  51 major cities landmark image generation  
 echo  6 weather conditions
 echo  VRAM 12GB+ recommended
 echo.
@@ -21,13 +21,13 @@ echo ===============================================================
 echo Generation Options
 echo ===============================================================
 echo.
-echo [1] Asia-Pacific (12 cities, 72 images, 2-3 hours)
+echo [1] Asia-Pacific (16 cities, 96 images, 3-4 hours)
 echo [2] Europe (12 cities, 72 images, 2-3 hours)
 echo [3] North America (10 cities, 60 images, 2-3 hours)
-echo [4] Middle East and Africa (8 cities, 48 images, 1-2 hours)
+echo [4] Middle East and Africa (9 cities, 54 images, 2-3 hours)
 echo [5] South America (5 cities, 30 images, 1-2 hours)
 echo [6] Regional Fallbacks (8 regions, 48 images, 2-3 hours)
-echo [7] All Regions (47 cities, 282 images, 9-14 hours)
+echo [7] All Regions (51 cities, 306 images, 9-15 hours)
 echo [8] Individual City Selection
 echo [9] Test Run (First 2 cities)
 echo [10] Weather Selection
@@ -166,10 +166,10 @@ echo Individual City & Region Selection
 echo ===============================================================
 echo.
 echo MAIN CITIES:
-echo [1] Asia-Pacific cities (12 cities)
+echo [1] Asia-Pacific cities (16 cities)
 echo [2] Europe cities (12 cities)
 echo [3] North America cities (10 cities)
-echo [4] Middle East and Africa cities (8 cities)
+echo [4] Middle East and Africa cities (9 cities)
 echo [5] South America cities (5 cities)
 echo.
 echo REGIONAL FALLBACKS:
@@ -200,12 +200,12 @@ echo Asia-Pacific Cities:
 echo ===============================================================
 echo [1] Seoul [2] Tokyo [3] Beijing [4] Singapore [5] Bangkok
 echo [6] Mumbai [7] Bangalore [8] Jakarta [9] Kuala Lumpur [10] Manila
-echo [11] Ho Chi Minh [12] Sydney
+echo [11] Ho Chi Minh [12] Shanghai [13] Taipei [14] Melbourne [15] Sydney
 echo [0] Back
 echo.
 echo ** Selected city images will be overwritten **
 echo.
-set /p "city=Select city (0-12): "
+set /p "city=Select city (0-15): "
 
 if "!city!"=="1" call :SINGLE_CITY "seoul"
 if "!city!"=="2" call :SINGLE_CITY "tokyo"
@@ -218,7 +218,10 @@ if "!city!"=="8" call :SINGLE_CITY "jakarta"
 if "!city!"=="9" call :SINGLE_CITY "kuala_lumpur"
 if "!city!"=="10" call :SINGLE_CITY "manila"
 if "!city!"=="11" call :SINGLE_CITY "ho_chi_minh"
-if "!city!"=="12" call :SINGLE_CITY "sydney"
+if "!city!"=="12" call :SINGLE_CITY "shanghai"
+if "!city!"=="13" call :SINGLE_CITY "taipei"
+if "!city!"=="14" call :SINGLE_CITY "melbourne"
+if "!city!"=="15" call :SINGLE_CITY "sydney"
 if "!city!"=="0" goto :INDIVIDUAL_MENU
 
 echo Invalid selection.
@@ -292,12 +295,12 @@ echo.
 echo Middle East and Africa Cities:
 echo ===============================================================
 echo [1] Dubai [2] Riyadh [3] Tehran [4] Cairo
-echo [5] Johannesburg [6] Nairobi [7] Casablanca [8] Tel Aviv
+echo [5] Johannesburg [6] Nairobi [7] Casablanca [8] Tel Aviv [9] Lagos
 echo [0] Back
 echo.
 echo ** Selected city images will be overwritten **
 echo.
-set /p "city=Select city (0-8): "
+set /p "city=Select city (0-9): "
 
 if "!city!"=="1" call :SINGLE_CITY "dubai"
 if "!city!"=="2" call :SINGLE_CITY "riyadh"
@@ -307,6 +310,7 @@ if "!city!"=="5" call :SINGLE_CITY "johannesburg"
 if "!city!"=="6" call :SINGLE_CITY "nairobi"
 if "!city!"=="7" call :SINGLE_CITY "casablanca"
 if "!city!"=="8" call :SINGLE_CITY "tel_aviv"
+if "!city!"=="9" call :SINGLE_CITY "lagos"
 if "!city!"=="0" goto :INDIVIDUAL_MENU
 
 echo Invalid selection.
