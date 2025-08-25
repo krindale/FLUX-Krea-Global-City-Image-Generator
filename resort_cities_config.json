@@ -19,7 +19,7 @@
     "clip_text": "t5xxl_fp16.safetensors",
     "clip_vision": "clip_l.safetensors",
     "vae": "ae.safetensors",
-    "lora": "low-poly-joy.safetensors",
+    "lora": "noc-lwply.safetensors",
     "lora_strength_model": 1.0,
     "lora_strength_clip": 1.0
   },
