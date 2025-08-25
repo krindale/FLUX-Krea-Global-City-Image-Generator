@@ -6,6 +6,7 @@
 
 import os
 import sys
+import shutil
 from PIL import Image
 from pathlib import Path
 import argparse
@@ -183,6 +184,103 @@ def optimize_folder(folder_path, quality=85, backup=True, recursive=True):
     if total_original > 0:
         total_reduction = (1 - total_optimized/total_original) * 100
         print(f"전체 용량 절약: {total_reduction:.1f}% ({(total_original-total_optimized)/1024/1024:.1f} MB)")
+    
+    # PNG to WebP 변환 프로세스
+    convert_png_to_webp_process(folder)
+
+def convert_png_to_webp_process(folder_path, quality=85):
+    """
+    폴더 내 모든 PNG 파일을 WebP로 변환하고 원본을 backup 폴더로 이동합니다.
+    
+    Args:
+        folder_path: 폴더 경로
+        quality: WebP 품질 (1-100)
+    """
+    folder = Path(folder_path)
+    
+    # PNG 파일 찾기 (backup 폴더 제외)
+    png_files = []
+    for png_file in folder.rglob('*.png'):
+        if 'backup' not in png_file.parts:
+            png_files.append(png_file)
+    
+    if not png_files:
+        print("\n변환할 PNG 파일이 없습니다.")
+        return
+    
+    print(f"\n" + "=" * 60)
+    print(f"PNG → WebP 변환 시작 ({len(png_files)}개 파일)")
+    print("=" * 60)
+    
+    # 백업 폴더 확인/생성
+    backup_folder = folder / 'backup'
+    backup_folder.mkdir(exist_ok=True)
+    
+    total_original_size = 0
+    total_webp_size = 0
+    success_count = 0
+    
+    for i, png_file in enumerate(png_files, 1):
+        try:
+            print(f"[{i}/{len(png_files)}] {png_file.name}")
+            
+            # WebP 경로 생성
+            webp_path = png_file.with_suffix('.webp')
+            
+            # 원본 크기 기록
+            original_size = png_file.stat().st_size
+            total_original_size += original_size
+            
+            # PNG를 WebP로 변환
+            with Image.open(png_file) as img:
+                # 1024x1024 크기 확인
+                if img.size != (1024, 1024):
+                    img = img.resize((1024, 1024), Image.Resampling.LANCZOS)
+                
+                # WebP로 저장 (투명도 유지)
+                if img.mode in ('RGBA', 'LA'):
+                    img.save(webp_path, 'WEBP', quality=quality, optimize=True, lossless=False)
+                else:
+                    img.save(webp_path, 'WEBP', quality=quality, optimize=True)
+            
+            # WebP 파일 크기 확인
+            webp_size = webp_path.stat().st_size
+            total_webp_size += webp_size
+            reduction = (1 - webp_size/original_size) * 100
+            
+            print(f"  → {webp_path.name}")
+            print(f"  크기: {original_size:,} → {webp_size:,} bytes ({reduction:.1f}% 절약)")
+            
+            # 원본 PNG를 backup 폴더로 이동
+            relative_path = png_file.relative_to(folder)
+            backup_path = backup_folder / relative_path
+            
+            # 백업 폴더 구조 생성
+            backup_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            # 파일 이동
+            shutil.move(str(png_file), str(backup_path))
+            print(f"  백업: {backup_path.relative_to(folder)}")
+            
+            success_count += 1
+            
+        except Exception as e:
+            print(f"  오류: {e}")
+        
+        print()
+    
+    # WebP 변환 결과 요약
+    print("=" * 60)
+    print("PNG → WebP 변환 완료!")
+    print(f"성공: {success_count}/{len(png_files)} 파일")
+    print(f"PNG 총 크기: {total_original_size:,} bytes ({total_original_size/1024/1024:.1f} MB)")
+    print(f"WebP 총 크기: {total_webp_size:,} bytes ({total_webp_size/1024/1024:.1f} MB)")
+    
+    if total_original_size > 0:
+        total_reduction = (1 - total_webp_size/total_original_size) * 100
+        saved_mb = (total_original_size - total_webp_size) / 1024 / 1024
+        print(f"WebP 절약: {total_reduction:.1f}% ({saved_mb:.1f} MB)")
+    print("=" * 60)
 
 def main():
     parser = argparse.ArgumentParser(description='이미지 최적화 도구')
