@@ -26,31 +26,33 @@ echo [2] Europe (12 cities, 72 images, 2-3 hours)
 echo [3] North America (10 cities, 60 images, 2-3 hours)
 echo [4] Middle East and Africa (9 cities, 54 images, 2-3 hours)
 echo [5] South America (5 cities, 30 images, 1-2 hours)
-echo [6] Regional Fallbacks (8 regions, 48 images, 2-3 hours)
-echo [7] All Regions (51 cities, 306 images, 9-15 hours)
-echo [8] Individual City Selection
-echo [9] Test Run (First 2 cities)
-echo [10] Weather Selection
-echo [11] Show Info
-echo [12] Clear Existing Images
+echo [6] Resort Destinations (15 cities, 90 images, 3-4 hours)
+echo [7] Regional Fallbacks (9 regions, 54 images, 3-4 hours)
+echo [8] All Regions (51 cities, 306 images, 9-15 hours)
+echo [9] Individual City Selection
+echo [10] Test Run (First 2 cities)
+echo [11] Weather Selection
+echo [12] Show Info
+echo [13] Clear Existing Images
 echo [0] Exit
 echo.
 echo ** Existing images will be automatically overwritten **
 echo.
-set /p "choice=Please select (0-12): "
+set /p "choice=Please select (0-13): "
 
 if "!choice!"=="1" goto :ASIA_PACIFIC
 if "!choice!"=="2" goto :EUROPE
 if "!choice!"=="3" goto :NORTH_AMERICA
 if "!choice!"=="4" goto :MIDDLE_EAST_AFRICA
 if "!choice!"=="5" goto :SOUTH_AMERICA
-if "!choice!"=="6" goto :REGIONAL_FALLBACK
-if "!choice!"=="7" goto :ALL_REGIONS
-if "!choice!"=="8" goto :INDIVIDUAL_MENU
-if "!choice!"=="9" goto :TEST_RUN
-if "!choice!"=="10" goto :WEATHER_SELECT
-if "!choice!"=="11" goto :SHOW_INFO
-if "!choice!"=="12" goto :CLEAR_IMAGES
+if "!choice!"=="6" goto :RESORT_DESTINATIONS
+if "!choice!"=="7" goto :REGIONAL_FALLBACK
+if "!choice!"=="8" goto :ALL_REGIONS
+if "!choice!"=="9" goto :INDIVIDUAL_MENU
+if "!choice!"=="10" goto :TEST_RUN
+if "!choice!"=="11" goto :WEATHER_SELECT
+if "!choice!"=="12" goto :SHOW_INFO
+if "!choice!"=="13" goto :CLEAR_IMAGES
 if "!choice!"=="0" goto :EXIT
 
 echo Invalid selection. Please try again.
@@ -127,13 +129,25 @@ echo.
 python regional_batch_generator.py --region south_america --config global_cities_config.json
 goto :RESULT_MENU
 
+:RESORT_DESTINATIONS
+echo.
+echo Starting Resort Destinations generation...
+echo ===============================================================
+echo Cities: 15 premium resort and tourist destinations
+echo Images: 90 (15 cities x 6 weather conditions)
+echo Time: 3-4 hours
+echo Existing images will be automatically overwritten.
+echo.
+python regional_batch_generator.py --resort --config resort_cities_config.json
+goto :RESULT_MENU
+
 :REGIONAL_FALLBACK
 echo.
 echo Starting Regional Fallbacks generation...
 echo ===============================================================
-echo Regions: Northern India, China Inland, Southeast Asia Extended, West Africa, Eastern Europe, Northern Andes, Central Asia, Oceania Extended
-echo Images: 48 (8 regions x 6 weather conditions)
-echo Time: 2-3 hours
+echo Regions: Northern India, China Inland, Southeast Asia Extended, West Africa, Middle East Extended, Eastern Europe, Northern Andes, Central Asia, Oceania Extended
+echo Images: 54 (9 regions x 6 weather conditions)
+echo Time: 3-4 hours
 echo Existing images will be automatically overwritten.
 echo.
 python regional_fallback_generator.py --config regional_fallback_config.json
@@ -172,21 +186,25 @@ echo [3] North America cities (10 cities)
 echo [4] Middle East and Africa cities (9 cities)
 echo [5] South America cities (5 cities)
 echo.
+echo RESORT DESTINATIONS:
+echo [6] Resort Cities (15 cities)
+echo.
 echo REGIONAL FALLBACKS:
-echo [6] Regional Fallback Areas (10 regions)
+echo [7] Regional Fallback Areas (11 regions)
 echo.
 echo [0] Back to main menu
 echo.
 echo ** Selected city/region images will be overwritten **
 echo.
-set /p "region=Select option (0-6): "
+set /p "region=Select option (0-7): "
 
 if "!region!"=="1" goto :ASIA_PACIFIC_CITIES
 if "!region!"=="2" goto :EUROPE_CITIES
 if "!region!"=="3" goto :NORTH_AMERICA_CITIES
 if "!region!"=="4" goto :MIDDLE_EAST_AFRICA_CITIES
 if "!region!"=="5" goto :SOUTH_AMERICA_CITIES
-if "!region!"=="6" goto :FALLBACK_REGIONS
+if "!region!"=="6" goto :RESORT_CITIES
+if "!region!"=="7" goto :FALLBACK_REGIONS
 if "!region!"=="0" goto :MAIN_MENU
 
 echo Invalid selection.
@@ -340,36 +358,77 @@ echo Invalid selection.
 pause
 goto :SOUTH_AMERICA_CITIES
 
+:RESORT_CITIES
+cls
+echo.
+echo Resort Destination Cities:
+echo ===============================================================
+echo TROPICAL RESORTS:
+echo [1] Maldives [2] Phuket [3] Bali [4] Cancun [5] Hawaii
+echo.
+echo MOUNTAIN RESORTS:
+echo [6] Aspen [7] Zermatt [8] Tahiti [9] Queenstown
+echo.
+echo CULTURAL DESTINATIONS:
+echo [10] Sapporo [11] Dubrovnik [12] Petra [13] Santorini [14] Machu Picchu [15] Angkor Wat
+echo [0] Back
+echo.
+echo ** Selected city images will be overwritten **
+echo.
+set /p "city=Select city (0-15): "
+
+if "!city!"=="1" call :SINGLE_RESORT_CITY "maldives"
+if "!city!"=="2" call :SINGLE_RESORT_CITY "phuket"
+if "!city!"=="3" call :SINGLE_RESORT_CITY "bali"
+if "!city!"=="4" call :SINGLE_RESORT_CITY "cancun"
+if "!city!"=="5" call :SINGLE_RESORT_CITY "hawaii"
+if "!city!"=="6" call :SINGLE_RESORT_CITY "aspen"
+if "!city!"=="7" call :SINGLE_RESORT_CITY "zermatt"
+if "!city!"=="8" call :SINGLE_RESORT_CITY "tahiti"
+if "!city!"=="9" call :SINGLE_RESORT_CITY "queenstown"
+if "!city!"=="10" call :SINGLE_RESORT_CITY "sapporo"
+if "!city!"=="11" call :SINGLE_RESORT_CITY "dubrovnik"
+if "!city!"=="12" call :SINGLE_RESORT_CITY "petra"
+if "!city!"=="13" call :SINGLE_RESORT_CITY "santorini"
+if "!city!"=="14" call :SINGLE_RESORT_CITY "machu_picchu"
+if "!city!"=="15" call :SINGLE_RESORT_CITY "angkor_wat"
+if "!city!"=="0" goto :INDIVIDUAL_MENU
+
+echo Invalid selection.
+pause
+goto :RESORT_CITIES
+
 :FALLBACK_REGIONS
 cls
 echo.
 echo Regional Fallback Areas:
 echo ===============================================================
 echo HIGH PRIORITY:
-echo [1] Northern India [2] China Inland [3] China South [4] Southeast Asia Extended [5] West Africa
+echo [1] Northern India [2] China Inland [3] China South [4] Southeast Asia Extended [5] West Africa [6] Middle East Extended
 echo.
 echo MEDIUM PRIORITY:
-echo [6] East Africa [7] Eastern Europe [8] Northern Andes
+echo [7] East Africa [8] Eastern Europe [9] Northern Andes
 echo.
 echo LOW PRIORITY:
-echo [9] Central Asia [10] Oceania Extended
+echo [10] Central Asia [11] Oceania Extended
 echo.
 echo [0] Back
 echo.
 echo ** Selected region images will be overwritten **
 echo.
-set /p "fallback=Select region (0-10): "
+set /p "fallback=Select region (0-11): "
 
 if "!fallback!"=="1" call :SINGLE_FALLBACK "northern_india"
 if "!fallback!"=="2" call :SINGLE_FALLBACK "china_inland"
 if "!fallback!"=="3" call :SINGLE_FALLBACK "china_south"
 if "!fallback!"=="4" call :SINGLE_FALLBACK "southeast_asia_extended"
 if "!fallback!"=="5" call :SINGLE_FALLBACK "west_africa"
-if "!fallback!"=="6" call :SINGLE_FALLBACK "east_africa"
-if "!fallback!"=="7" call :SINGLE_FALLBACK "eastern_europe"
-if "!fallback!"=="8" call :SINGLE_FALLBACK "northern_andes"
-if "!fallback!"=="9" call :SINGLE_FALLBACK "central_asia"
-if "!fallback!"=="10" call :SINGLE_FALLBACK "oceania_extended"
+if "!fallback!"=="6" call :SINGLE_FALLBACK "middle_east_extended"
+if "!fallback!"=="7" call :SINGLE_FALLBACK "east_africa"
+if "!fallback!"=="8" call :SINGLE_FALLBACK "eastern_europe"
+if "!fallback!"=="9" call :SINGLE_FALLBACK "northern_andes"
+if "!fallback!"=="10" call :SINGLE_FALLBACK "central_asia"
+if "!fallback!"=="11" call :SINGLE_FALLBACK "oceania_extended"
 if "!fallback!"=="0" goto :INDIVIDUAL_MENU
 
 echo Invalid selection.
@@ -415,6 +474,28 @@ if exist temp_single_city_config.json (
     echo Single city generation completed!
 ) else (
     echo Error creating config for city: %~1
+    pause
+)
+
+goto :RESULT_MENU
+
+:SINGLE_RESORT_CITY
+echo.
+echo Generating resort city: %~1
+echo ===============================================================
+echo Images: 6 (1 city x 6 weather conditions)
+echo Estimated time: 12-24 minutes
+echo Existing images will be overwritten.
+echo.
+
+python create_single_config.py %~1 --resort
+
+if exist temp_single_resort_config.json (
+    python regional_batch_generator.py --resort single_city --config temp_single_resort_config.json
+    del temp_single_resort_config.json > nul 2>&1
+    echo Single resort city generation completed!
+) else (
+    echo Error creating config for resort city: %~1
     pause
 )
 

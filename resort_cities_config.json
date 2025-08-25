@@ -1,0 +1,228 @@
+{
+  "settings": {
+    "server_url": "http://127.0.0.1:8000",
+    "timeout_seconds": 300,
+    "image_size": {
+      "width": 1024,
+      "height": 1024
+    },
+    "flux_krea_params": {
+      "steps": 35,
+      "scheduler": "simple",
+      "sampler": "euler",
+      "cfg": 1.0,
+      "denoise": 1.0
+    }
+  },
+  "flux_krea_models": {
+    "unet": "flux1-krea-dev_fp8_scaled.safetensors",
+    "clip_text": "t5xxl_fp16.safetensors",
+    "clip_vision": "clip_l.safetensors",
+    "vae": "ae.safetensors",
+    "lora": "low-poly-joy.safetensors",
+    "lora_strength_model": 1.0,
+    "lora_strength_clip": 1.0
+  },
+  "lora_keywords": {
+    "activation": "lo-ply_, noc-lwply,",
+    "style_description": "Low Poly Joy LoRA activation keywords for ultra-angular geometric style"
+  },
+  "prompts": {
+    "positive_template": "{lora_keywords} Stylized {landmark} illustration in low poly art style, geometric polygonal shapes, faceted surfaces, Low polygon count design with angular forms and triangular facets, polygonal clouds, angular horizon line, crystalline atmosphere. Vector graphics feel, clean minimalist composition, perfect for weather app background. Modern low poly aesthetic with crisp geometric edges throughout entire scene, professional UI artwork.{weather_condition}, low poly style background",
+    "negative_template": "blur, haze, soft focus, atmospheric perspective, depth of field, bokeh, motion blur, fog, mist, dreamy, soft lighting, realistic raindrops, photographic snowflakes, natural water drops, organic snow crystals, realistic weather effects, smooth rounded shapes, large raindrops, oversized snowflakes, big weather elements, giant precipitation, huge crystals, massive particles, recognizable raindrop shapes, distinct snowflake patterns, teardrop forms, star-shaped snowflakes, detailed precipitation, complex weather shapes, medium sized particles, visible crystal shapes, prominent weather elements, noticeable precipitation",
+    "style_keywords": "low poly art style, geometric polygonal shapes, faceted surfaces, angular forms, triangular facets, low polygon count, geometric edges, lo-ply_, noc-lwply"
+  },
+  "resort_destinations": {
+    "tropical_resorts": {
+      "name": "Tropical Resort Cities",
+      "description": "세계 최고의 열대 휴양지 및 해변 관광지",
+      "cities": [
+        {
+          "name": "maldives",
+          "city": "Malé",
+          "country": "Maldives",
+          "timezone": "UTC+5",
+          "landmark": "Overwater Bungalows",
+          "landmark_description": "wooden huts on crystal blue lagoon",
+          "coordinates": [4.1755, 73.5093]
+        },
+        {
+          "name": "phuket",
+          "city": "Phuket",
+          "country": "Thailand",
+          "timezone": "UTC+7",
+          "landmark": "Patong Beach",
+          "landmark_description": "tropical beach with palm trees",
+          "coordinates": [7.8804, 98.3923]
+        },
+        {
+          "name": "bali",
+          "city": "Bali",
+          "country": "Indonesia",
+          "timezone": "UTC+8",
+          "landmark": "Uluwatu Temple",
+          "landmark_description": "cliffside temple overlooking ocean",
+          "coordinates": [-8.3405, 115.0920]
+        },
+        {
+          "name": "cancun",
+          "city": "Cancún",
+          "country": "Mexico",
+          "timezone": "UTC-5",
+          "landmark": "Chichen Itza Pyramid",
+          "landmark_description": "ancient Mayan stepped pyramid",
+          "coordinates": [21.1619, -86.8515]
+        },
+        {
+          "name": "hawaii",
+          "city": "Honolulu",
+          "country": "United States",
+          "timezone": "UTC-10",
+          "landmark": "Diamond Head Crater",
+          "landmark_description": "volcanic crater overlooking Waikiki Beach",
+          "coordinates": [21.3099, -157.8581]
+        }
+      ]
+    },
+    "mountain_resorts": {
+      "name": "Mountain Resort Cities", 
+      "description": "세계적인 산악 휴양지 및 스키 리조트",
+      "cities": [
+        {
+          "name": "aspen",
+          "city": "Aspen",
+          "country": "United States",
+          "timezone": "UTC-7",
+          "landmark": "Maroon Bells",
+          "landmark_description": "twin peaked mountains reflected in alpine lake",
+          "coordinates": [39.1911, -106.8175]
+        },
+        {
+          "name": "zermatt",
+          "city": "Zermatt",
+          "country": "Switzerland",
+          "timezone": "UTC+1",
+          "landmark": "Matterhorn Peak",
+          "landmark_description": "iconic pyramid-shaped mountain peak",
+          "coordinates": [46.0207, 7.7491]
+        },
+        {
+          "name": "tahiti",
+          "city": "Papeete",
+          "country": "French Polynesia",
+          "timezone": "UTC-10",
+          "landmark": "Bora Bora Lagoon",
+          "landmark_description": "turquoise lagoon with overwater bungalows",
+          "coordinates": [-17.5516, -149.5585]
+        },
+        {
+          "name": "queenstown",
+          "city": "Queenstown",
+          "country": "New Zealand",
+          "timezone": "UTC+12",
+          "landmark": "Remarkables Mountains",
+          "landmark_description": "jagged mountain range by pristine lake",
+          "coordinates": [-45.0312, 168.6626]
+        }
+      ]
+    },
+    "cultural_destinations": {
+      "name": "Cultural Destination Cities",
+      "description": "세계 문화유산과 역사적 명소",
+      "cities": [
+        {
+          "name": "sapporo",
+          "city": "Sapporo",
+          "country": "Japan",
+          "timezone": "UTC+9",
+          "landmark": "Susukino Hot Springs",
+          "landmark_description": "winter resort with hot springs and snow festival",
+          "coordinates": [43.0642, 141.3469]
+        },
+        {
+          "name": "dubrovnik",
+          "city": "Dubrovnik",
+          "country": "Croatia",
+          "timezone": "UTC+1",
+          "landmark": "Old City Walls",
+          "landmark_description": "medieval fortress walls overlooking Adriatic Sea",
+          "coordinates": [42.6507, 18.0944]
+        },
+        {
+          "name": "petra",
+          "city": "Petra",
+          "country": "Jordan",
+          "timezone": "UTC+2",
+          "landmark": "Treasury",
+          "landmark_description": "ancient carved facade in rose-colored rock",
+          "coordinates": [30.3285, 35.4444]
+        },
+        {
+          "name": "santorini",
+          "city": "Santorini",
+          "country": "Greece",
+          "timezone": "UTC+2",
+          "landmark": "Oia Village",
+          "landmark_description": "white-washed buildings with blue domes overlooking Aegean Sea",
+          "coordinates": [36.4618, 25.3753]
+        },
+        {
+          "name": "machu_picchu",
+          "city": "Cusco",
+          "country": "Peru",
+          "timezone": "UTC-5",
+          "landmark": "Machu Picchu Ruins",
+          "landmark_description": "ancient Incan stone terraces on mountain peak",
+          "coordinates": [-13.1631, -72.5450]
+        },
+        {
+          "name": "angkor_wat",
+          "city": "Siem Reap",
+          "country": "Cambodia", 
+          "timezone": "UTC+7",
+          "landmark": "Angkor Wat Temple",
+          "landmark_description": "ancient Khmer temple complex with towers",
+          "coordinates": [13.4125, 103.8670]
+        }
+      ]
+    }
+  },
+  "weather_conditions": [
+    {
+      "name": "sunny",
+      "condition": "sunny clear blue sky, bright sunlight, geometric low poly white cloud formations",
+      "mood": "bright and cheerful",
+      "app_usage": "default_weather"
+    },
+    {
+      "name": "cloudy",
+      "condition": "cloudy overcast sky, soft diffused lighting, geometric low poly gray cloud formations, angular cloud shapes", 
+      "mood": "soft and calm",
+      "app_usage": "cloudy_weather"
+    },
+    {
+      "name": "rainy",
+      "condition": "rainy dark storm clouds, super tiny triangular crystal fragments falling, microscopic angular geometric particles scattered throughout sky, ultra-minimal crystalline precipitation elements, barely visible faceted triangular shapes, extremely subtle geometric rain effect with super tiny crystal fragments",
+      "mood": "moody and dramatic",
+      "app_usage": "rainy_weather"
+    },
+    {
+      "name": "snowy",
+      "condition": "snowy winter scene, super tiny triangular crystal fragments falling, microscopic angular geometric particles scattered throughout sky, ultra-minimal crystalline snow elements, barely visible faceted triangular shapes, extremely subtle geometric snow effect with super tiny crystal fragments",
+      "mood": "clean and crisp",
+      "app_usage": "winter_weather"
+    },
+    {
+      "name": "sunset",
+      "condition": "golden sunset sky, warm orange and pink colors, geometric low poly cloud formations with sunset lighting",
+      "mood": "warm and romantic",
+      "app_usage": "evening_weather"
+    },
+    {
+      "name": "foggy",
+      "condition": "foggy misty atmosphere, geometric low poly fog elements, angular mist formations, crystalline fog particles",
+      "mood": "mysterious and soft",
+      "app_usage": "misty_weather"
+    }
+  ]
+}

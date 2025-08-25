@@ -2,40 +2,69 @@ import json
 import sys
 import os
 
-def create_single_city_config(city_name):
+def create_single_city_config(city_name, is_resort=False):
     try:
-        # Load main cities config
-        with open('global_cities_config.json', 'r', encoding='utf-8') as f:
+        # Load appropriate config file
+        config_file = 'resort_cities_config.json' if is_resort else 'global_cities_config.json'
+        
+        with open(config_file, 'r', encoding='utf-8') as f:
             config = json.load(f)
         
-        # Find the city in all regions
+        # Find the city in appropriate sections
         target_city = None
-        for region_name, region_data in config['regions'].items():
-            for city in region_data['cities']:
-                if city['name'] == city_name:
-                    target_city = city
+        
+        if is_resort and 'resort_destinations' in config:
+            # Search in resort destinations
+            for category_name, category_data in config['resort_destinations'].items():
+                for city in category_data['cities']:
+                    if city['name'] == city_name:
+                        target_city = city
+                        break
+                if target_city:
                     break
-            if target_city:
-                break
+        elif not is_resort and 'regions' in config:
+            # Search in regular regions
+            for region_name, region_data in config['regions'].items():
+                for city in region_data['cities']:
+                    if city['name'] == city_name:
+                        target_city = city
+                        break
+                if target_city:
+                    break
         
         if target_city:
             # Create single city config
             single_config = config.copy()
-            single_config['regions'] = {
-                'single_city': {
-                    'name': 'Single City Generation',
-                    'description': f'Single city: {target_city["city"]}',
-                    'cities': [target_city]
-                }
-            }
             
-            with open('temp_single_city_config.json', 'w', encoding='utf-8') as f:
+            if is_resort:
+                # For resort cities, create resort_destinations structure
+                single_config['resort_destinations'] = {
+                    'single_city': {
+                        'name': 'Single Resort City Generation',
+                        'description': f'Single resort city: {target_city["city"]}',
+                        'cities': [target_city]
+                    }
+                }
+                output_file = 'temp_single_resort_config.json'
+            else:
+                # For regular cities, create regions structure
+                single_config['regions'] = {
+                    'single_city': {
+                        'name': 'Single City Generation',
+                        'description': f'Single city: {target_city["city"]}',
+                        'cities': [target_city]
+                    }
+                }
+                output_file = 'temp_single_city_config.json'
+            
+            with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(single_config, f, indent=2, ensure_ascii=False)
             
-            print(f'Config created for {target_city["city"]}')
+            print(f'Config created for {target_city["city"]} ({"Resort" if is_resort else "Regular"} city)')
             return True
         else:
-            print(f'City {city_name} not found in main cities!')
+            config_type = "resort cities" if is_resort else "main cities"
+            print(f'City {city_name} not found in {config_type}!')
             return False
             
     except Exception as e:
@@ -74,7 +103,7 @@ def create_single_fallback_config(region_name):
         return False
 
 def list_available_options():
-    """List all available cities and fallback regions"""
+    """List all available cities, resort destinations, and fallback regions"""
     print("\n=== AVAILABLE CITIES ===")
     try:
         with open('global_cities_config.json', 'r', encoding='utf-8') as f:
@@ -86,6 +115,19 @@ def list_available_options():
                 print(f"  - {city['name']} ({city['city']}, {city['country']})")
     except Exception as e:
         print(f"Error loading cities: {e}")
+    
+    print("\n=== AVAILABLE RESORT DESTINATIONS ===")
+    try:
+        with open('resort_cities_config.json', 'r', encoding='utf-8') as f:
+            config = json.load(f)
+        
+        if 'resort_destinations' in config:
+            for category_name, category_data in config['resort_destinations'].items():
+                print(f"\n{category_data['name']}:")
+                for city in category_data['cities']:
+                    print(f"  - {city['name']} ({city['city']}, {city['country']})")
+    except Exception as e:
+        print(f"Error loading resort destinations: {e}")
     
     print("\n=== AVAILABLE FALLBACK REGIONS ===")
     try:
@@ -99,19 +141,27 @@ def list_available_options():
     except Exception as e:
         print(f"Error loading fallback regions: {e}")
 
-def generate_single_selection(selection_name):
-    """Generate config for either city or fallback region"""
-    # Try as city first
-    if create_single_city_config(selection_name):
-        return True
-    
-    # Try as fallback region
-    if create_single_fallback_config(selection_name):
-        return True
-    
-    print(f"'{selection_name}' not found in cities or fallback regions!")
-    print("Use '--list' to see all available options.")
-    return False
+def generate_single_selection(selection_name, is_resort=False):
+    """Generate config for city, resort city, or fallback region"""
+    if is_resort:
+        # Try as resort city first
+        if create_single_city_config(selection_name, is_resort=True):
+            return True
+        print(f"'{selection_name}' not found in resort destinations!")
+        print("Use '--list' to see all available options.")
+        return False
+    else:
+        # Try as regular city first
+        if create_single_city_config(selection_name, is_resort=False):
+            return True
+        
+        # Try as fallback region
+        if create_single_fallback_config(selection_name):
+            return True
+        
+        print(f"'{selection_name}' not found in cities or fallback regions!")
+        print("Use '--list' to see all available options.")
+        return False
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -119,13 +169,16 @@ if __name__ == "__main__":
             list_available_options()
         else:
             selection_name = sys.argv[1]
-            generate_single_selection(selection_name)
+            is_resort = '--resort' in sys.argv
+            generate_single_selection(selection_name, is_resort)
     else:
         print("Usage:")
         print("  python create_single_config.py <city_name_or_region_name>")
+        print("  python create_single_config.py <resort_city_name> --resort")
         print("  python create_single_config.py --list")
         print("")
         print("Examples:")
         print("  python create_single_config.py seoul")
+        print("  python create_single_config.py maldives --resort")
         print("  python create_single_config.py northern_india")
         print("  python create_single_config.py china_south")

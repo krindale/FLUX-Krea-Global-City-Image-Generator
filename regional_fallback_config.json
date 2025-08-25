@@ -132,6 +132,17 @@
       "priority": 3,
       "population": "50M+"
     },
+    "middle_east_extended": {
+      "name": "Middle East Extended",
+      "description": "Iraq, Jordan, Lebanon, Syria and surrounding regions",
+      "representative_landmark": "Petra Rock City",
+      "landmark_description": "ancient carved sandstone city facades in rose-red cliffs",
+      "timezone": "UTC+3",
+      "coordinates": [30.3285, 35.4444],
+      "coverage_area": "Levant and Mesopotamian regions",
+      "priority": 1,
+      "population": "100M+"
+    },
     "oceania_extended": {
       "name": "Oceania Extended",
       "description": "New Zealand, Fiji, Papua New Guinea, etc.",
