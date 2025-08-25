@@ -212,15 +212,24 @@ class RegionalBatchGenerator:
             print(f"❌ Invalid configuration file format: {config_file}")
             return
         
-        # Check region
-        if region_name not in config['regions']:
+        # Check region - handle resort destinations
+        if 'resort_destinations' in config and region_name in config['resort_destinations']:
+            # Resort destinations logic
+            region = config['resort_destinations'][region_name]
+            cities = region['cities']
+            weather_conditions = config['weather_conditions']
+        elif region_name not in config['regions']:
             print(f"❌ Region not found: {region_name}")
-            print(f"Available regions: {list(config['regions'].keys())}")
+            available_regions = list(config['regions'].keys())
+            if 'resort_destinations' in config:
+                available_regions.extend(list(config['resort_destinations'].keys()))
+            print(f"Available regions: {available_regions}")
             return
-        
-        region = config['regions'][region_name]
-        cities = region['cities']
-        weather_conditions = config['weather_conditions']
+        else:
+            # Regular regions logic
+            region = config['regions'][region_name]
+            cities = region['cities']
+            weather_conditions = config['weather_conditions']
         
         # Apply weather filter
         if weather_filter:
@@ -350,6 +359,7 @@ def list_available_regions(config_file: str = "global_cities_config.json"):
 def main():
     parser = argparse.ArgumentParser(description='Regional city landmark image batch generator (timezone-based folders)')
     parser.add_argument('--region', '-r', type=str, help='Region name to generate')
+    parser.add_argument('--resort', action='store_true', help='Generate resort destinations (use with resort_cities_config.json)')
     parser.add_argument('--list', '-l', action='store_true', help='Show available region list')
     parser.add_argument('--weather', '-w', nargs='+', help='Generate specific weather only (e.g. sunny cloudy)')
     parser.add_argument('--config', '-c', default='global_cities_config.json', help='Configuration file path')
@@ -361,11 +371,38 @@ def main():
         list_available_regions(args.config)
         return
     
+    # Handle resort destinations
+    if args.resort:
+        if not args.region:
+            # Generate all resort destinations
+            generator = RegionalBatchGenerator(args.server)
+            # Load config to get all resort destination categories
+            try:
+                with open(args.config, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                if 'resort_destinations' in config:
+                    for resort_category in config['resort_destinations']:
+                        print(f"🏖️ Generating resort category: {resort_category}")
+                        generator.generate_region_batch(resort_category, args.config, args.weather)
+                        time.sleep(2)  # Brief pause between categories
+                else:
+                    print("❌ No resort destinations found in config file")
+            except Exception as e:
+                print(f"❌ Error loading config: {e}")
+            return
+        else:
+            # Generate specific resort region
+            if args.region == "single_city":
+                # Handle single resort city generation
+                args.region = "single_city"
+    
     if not args.region:
         print("❌ Please specify a region. Use --list option to check available regions.")
         return
     
     print("🎨 Regional Low Poly City Landmark Image Generator")
+    if args.resort:
+        print("🏖️ Resort Destinations Mode")
     print("FLUX Krea + Low Poly Joy LoRA Style | Timezone-based Folder Structure")
     print("="*70)
     
